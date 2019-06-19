@@ -1,0 +1,67 @@
+.calender {
+	border-left: 1px solid rgba(0,0,0,0.4);
+	border-right: 1px solid rgba(0,0,0,0.4);
+	width: 300px;
+}
+
+.calender-hdr {
+	display: flex;
+	padding: 6px 10px;
+	justify-content: space-between;
+}
+
+.calender-hdr span {
+	cursor: pointer;
+}
+
+.calender-hdr h3 {
+	width: 110px;
+	text-align: center;
+}
+
+.week-days {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.today {
+	text-align: center;
+	color: dodgerblue;
+	cursor: pointer;
+	padding: 10px 0;
+	text-transform: uppercase;
+}
+
+.month {
+	border-top: 1px solid rgba(0,0,0,0.4);
+	border-bottom: 1px solid rgba(0,0,0,0.4);
+}
+
+.date-table {
+	display: grid;
+	grid-template-columns: repeat(7 , 1fr);
+	grid-auto-flow: row;
+	padding: 6px;
+	border-bottom: 1px solid rgba(0,0,0,0.4);
+}
+
+.date-table p {
+	display: inline-block;
+	padding: 4px 0;
+	text-align: center;
+}
+
+.day {
+	cursor: pointer;
+}
+
+.current-day {
+	border: 1px solid dodgerblue;
+	background: rgba(0,0,0,0.1);
+}
+
+.active {
+	background-color: dodgerblue;
+	color: #fff;
+}
