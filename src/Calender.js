@@ -5,7 +5,6 @@ class Calender extends Component {
 	constructor(props){
 		super(props);
 		this.date = new Date();
-		console.log(this.props, "prop in calender...")
 		this.state = {
 			day: this.date.getDay(),
 			month: this.date.getMonth(),
@@ -85,13 +84,30 @@ class Calender extends Component {
 
 	render() {
 		const { month, year, months, weekDays, today, tableCells } = this.state;
-		console.log(this.state, "state rnder..., days....");
-
 		var firstDay = this.firstDay().split(' ');
-		var totalMonthDays = this.getMonthDays(year,month);
-		var position = weekDays.indexOf(firstDay[0].toUpperCase()) + 1;
-		console.log(firstDay[0].toUpperCase(), position, totalMonthDays);
+		var previousMonthDays = this.getMonthDays(year, month - 1);
+		var currentMonthDays = this.getMonthDays(year, month);
+		var nextMonthDays = this.getMonthDays(year, month + 1);
+		var position = weekDays.indexOf(firstDay[0].toUpperCase());
+		var pastDays = (tableCells - previousMonthDays) - position;
+		var nextDays = tableCells - (pastDays + currentMonthDays);
+		var calender = [];
 
+		// loop to add previous month days into an array
+		while (pastDays > 0) { 
+		  calender.push(previousMonthDays - pastDays + 1);
+		  --pastDays;
+		}
+
+		// loop to add current month days into an array
+		for(var i = 1; i <= currentMonthDays; i++){
+			calender.push(i);
+		}
+
+		// loop to add past month days into an array
+		for(var i = 1; i <= nextDays; i++){
+			calender.push(i);
+		}
 
 		return (
 			<div className="calender">
@@ -115,11 +131,9 @@ class Calender extends Component {
 
 							<div className="date-table">
 								{
-									this.createTable(tableCells).map((v, i) => (
-										v === position && v < totalMonthDays ?
-											<p className={v === this.date.getDay() ? "day current-day": "day" } onClick={this.handleDay} key={i}>{ position + i }</p>
-										: null
-									))
+									calender.length === tableCells ? calender.map((DATE, idx) => (
+										<p className={ DATE === this.date.getDate() /*&&  this.date.getDay() === new Date().getDay() */? "day current-day": "day" } onClick={this.handleDay} key={idx}>{ DATE }</p>
+									)) : null
 								}
 							</div>
 							<p className="today" onClick={() => this.props.today(today)}>today</p>

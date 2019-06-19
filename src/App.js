@@ -4,23 +4,14 @@ import Calender from './Calender';
 
 class App extends Component {
 
-  constructor(){
-    super();
-    // var date = new Date();
-    this.state = {
-      date: "",
-      type: "",
-      icon: true,
-      calender: false,
-      // day: date.getDay(),
-      // month: date.getMonth(),
-      // year: date.getFullYear(),
-    }
+  state = {
+    date: "",
+    type: "",
+    icon: true,
+    calender: false,
   }
 
-  handleClick = () => {
-    console.log("handleClick fired...");
-  }
+  // handleClick = () => {}
 
   mouseEnter = () => {
     this.setState({ icon: !this.state.icon });
@@ -31,7 +22,6 @@ class App extends Component {
   }
 
   handleClear = () => {
-    console.log("handleClear fired....");
     this.setState({ date: "" });
   }
 
@@ -44,7 +34,6 @@ class App extends Component {
   }
 
   today = (data, type) => {
-    console.log("today data fired...", data);
     this.setState({ date: data });
   }
 
