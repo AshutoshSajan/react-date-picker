@@ -6,11 +6,12 @@ class Calender extends Component {
 	constructor(props){
 		super(props);
 		console.log(this.props.date, "date prop...");
-		// this.dateFromInput = this.props.date;
-		// console.log(this.dateFromInput, "prop cal...");
+		this.dateFromInput = this.props.date;
+		console.log(this.dateFromInput.split('/')[0], "prop cal...");
 		this.date = new Date();
 		this.febDays = "";
 		this.state = {
+			format: this.props.format,
 			day: this.props.date ? this.props.date.split('/')[1] : this.date.getDay(),
 			month: this.props.date ? this.props.date.split('/')[0] : this.date.getMonth() + 1,
 			year: this.props.date ? this.props.date.split('/')[2]  : this.date.getFullYear(),
@@ -24,6 +25,7 @@ class Calender extends Component {
 			selectedDay: this.props.date,
 			active: "active",
 			showMonth: false
+			// allFormats: ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY/MM/DD", "YYYY/DD/MMMM"]
 		}
 	}
 
@@ -39,20 +41,24 @@ class Calender extends Component {
  //    }else console.log("month is not == 2");
 	// }
 
+	// handleFormat = (format) => {
+	// 	console.log(format, "cal frmt fired...");
+	// }
+
 	handleClick = (e) => {
 		if(e.target.dataset.key === "dec-year"){
 			this.setState({ year: --this.state.year });
 		} else if(e.target.dataset.key === "dec-month"){			
-			if(this.state.month === 0){
-				this.setState({ year: --this.state.year , month: 11 });
+			if(this.state.month === 1){
+				this.setState({ year: --this.state.year , month: 12 });
 			} else {
 				this.setState({ month: --this.state.month });
 			}
 		} else if(e.target.dataset.key === "inc-year"){
 			this.setState({ year: ++this.state.year });
 		} else if(e.target.dataset.key === "inc-month"){
-			if(this.state.month === 11){
-				this.setState({ year: ++this.state.year , month: 0 });
+			if(this.state.month === 12){
+				this.setState({ year: ++this.state.year , month: 1 });
 			} else {
 				this.setState({ month: ++this.state.month });
 			}
@@ -79,11 +85,24 @@ class Calender extends Component {
 
 	handleDay = (e) => {
 		const { innerText } = e.target;
-		// this.setState({ active: "" });
-		// this.setState({ active: "active" });
-		const { month, year, active } = this.state;
-		// e.target.classList.add(active);
+		// // this.setState({ active: "" });
+		// // this.setState({ active: "active" });
+		const { format, month, year, active } = this.state;
+		// // e.target.classList.add(active);
+		// if(format === "DD/MM/YYYY"){
+		// 	const selectedDay = `${innerText.length < 2 ? "0" + innerText : innerText }/${month.toString().length < 2 ? "0" + month : month }/${year}`;
+		// } else if (format === "MM/DD/YYYY"){
+		// 	const selectedDay = `${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }/${year}/`;
+
+		// }else if (format === "YYYY/MM/DD"){
+		// 	const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
+		// }else if (format === "YYYY/DD/MMMM"){
+		// 	const selectedDay = `${year}/${innerText.length < 2 ? "0" + innerText : innerText }/${month.toString().length < 2 ? "0" + month : month }`;
+		// }
+
+		// user selected date from calender
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
+
 		this.setState({ selectedDay });
 		this.props.today(selectedDay);
 	}
@@ -180,7 +199,7 @@ class Calender extends Component {
 								}
 							</div>
 							<div className="calender-footer">
-								<DateFormat />
+								<DateFormat handleFormat={this.props.handleFormat}/>
 								<p className="today" onClick={() => this.props.today(today)}>today</p>
 
 							</div>

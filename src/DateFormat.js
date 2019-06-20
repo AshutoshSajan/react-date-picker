@@ -5,13 +5,14 @@ class DateFormat extends Component {
 
 	handleChange = (e) => {
 		console.log(e.target.value);
+		this.props.handleFormat(e.target.value);
 	}
 
 	render() {
 		return (
 			<div className="select-format">
 				<select className="select-format-btn" name="options" onChange={this.handleChange} >
-					<option>select date format</option>
+					<option value="YYYY/MM/DD">select date format</option>
 					<option>DD/MM/YYYY</option>
 					<option>MM/DD/YYYY</option>
 					<option>YYYY/MM/DD</option>

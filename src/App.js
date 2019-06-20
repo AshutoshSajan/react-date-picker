@@ -3,16 +3,21 @@ import './App.css';
 import Calender from './Calender';
 
 class App extends Component {
-
-  state = {
-    date: "",
-    icon: true,
-    calender: false,
-    error: "",
-    sendDate: false
+  constructor(){
+    super();
+    this.format = "YYYY/MM/DD";
+    this.state = {
+      date: "",
+      icon: true,
+      calender: false,
+      error: "",
+      // sendDate: false,
+    }
   }
 
-  // handleClick = () => {}
+  handleClick = () => {
+    this.setState({ calender: /*!this.state.calender*/ true });
+  }
 
   mouseEnter = () => {
     if(this.state.date){
@@ -28,16 +33,39 @@ class App extends Component {
     this.setState({ icon: true, date: "" });
   }
 
-  handleFocus = () => {
-    this.setState({ calender: true });
-  }
+  // handleFocus = () => {
+  //   this.setState({ calender: !this.state.calender });
+  // }
 
   // handleBlur = () => {
   //   this.setState({ calender: false });
   // }
 
+  // date format handler function
+  handleFormat = (format) => {
+    this.format = format;
+    console.log(this.format, "app format fired...");
+  }
+
   today = (data, type) => {
-    this.setState({ date: data });
+    console.log(data, this.format, "data...");
+    var a = 'DD/MM/YYYY'
+    var b = 'MM/DD/YYYY'
+    var c = 'YYYY/MM/DD'
+    var d = 'YYYY/DD/MMMM'
+
+    if(this.format === a){
+      var res = data.split('/').reverse().join('/');
+      this.setState({ date: res });
+    } else if(this.format === b){
+      var res = data.split('/').sort((a,b)=> b -a ).reverse();
+      this.setState({ date: res });
+    } else if(this.format === 'DD/MM/YYYY'){
+      var res = data.split('/').reverse().join('/');
+      this.setState({ date: res });
+    } else {
+      this.setState({ date: data });
+    }
   }
 
   handleChage = (e) => {
@@ -51,17 +79,17 @@ class App extends Component {
       var a = e.target.value.split("/");
       if(a.length === 3){
         // console.log(a,'a...');
-        if((a[0].length <= 2 && Number(a[0]) <= 31) && (a[1].length <= 2 && Number(a[1]) <= 12) && a[2].length === 4){
-          this.setState({ date: e.target.value, inputDate: e.target.value });
-        } else this.setState({ date: "" , error: "invalid date format", sendDate: true });
+        // if((a[0].length <= 2 && Number(a[0]) <= 31) && (a[1].length <= 2 && Number(a[1]) <= 12) && a[2].length === 4){
+        //   this.setState({ date: e.target.value, inputDate: e.target.value });
+        // } else this.setState({ date: "" , error: "invalid date format", sendDate: true });
       };
     };
   }
 
   render() {
-    // console.log(this.state);
+    // console.log(this.state, this.format);
     return (
-      <div className="app" onFocus={this.handleFocus} /*onBlur={this.handleBlur}*/ >
+      <div className="app" onClick={ this.handleClick } /*onFocus={this.handleFocus} /*onBlur={this.handleBlur}*/ >
         <div className="input-box" onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} >
           <input type="text" className={ this.state.error ? "error main-input" : "main-input" } placeholder={ this.state.error ||"Select Date"} name="date" value={ this.state.date } onChange={ this.handleChage } onKeyDown={ this.handleEnter } />
             {
@@ -70,7 +98,7 @@ class App extends Component {
             }
         </div>
         {
-          this.state.calender ? <Calender today={this.today} date={ this.state.date } /> : null
+          this.state.calender ? <Calender today={this.today} date={ this.state.date } handleFormat={this.handleFormat} format={this.format} />  : null
         }
 
       </div>
