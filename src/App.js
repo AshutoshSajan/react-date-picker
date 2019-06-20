@@ -44,10 +44,11 @@ class App extends Component {
   // date format handler function
   handleFormat = (format) => {
     this.format = format;
-    console.log(this.format, "app format fired...");
+    this.today(this.state.date);
+    // console.log(this.format, "app format fired...");
   }
 
-  today = (data, type) => {
+  today = (data) => {
     console.log(data, this.format, "data...");
     var a = 'DD/MM/YYYY'
     var b = 'MM/DD/YYYY'

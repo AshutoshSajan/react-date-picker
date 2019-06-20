@@ -12,14 +12,15 @@ class Calender extends Component {
 		this.febDays = "";
 		this.state = {
 			format: this.props.format,
-			day: this.props.date ? this.props.date.split('/')[1] : this.date.getDay(),
+			date: this.props.date ? this.props.date.split('/')[1] : this.date.getDate(),
+			day: this.date.getDay(),
 			month: this.props.date ? this.props.date.split('/')[0] : this.date.getMonth() + 1,
 			year: this.props.date ? this.props.date.split('/')[2]  : this.date.getFullYear(),
 			weekDays: ["SUN","MON", "TUE", "WED","THU","FRI", "SAT"],
 			months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
 			daysOfMonth: ["31", `${this.febDays || "" }`, "31", "30", "31", "30", "31", "31", "30", "31", "30", "31"],
 
-			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth(): this.date.getMonth() }/${ this.date.getDay().toString().length < 2 ? "0" + this.date.getDay() : this.date.getDay() }`,
+			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth(): this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate() : this.date.getDate() }`,
 			tableCells: 42,
 			days : this.getMonthDays(this.date.getFullYear(), this.date.getMonth() + 1),
 			selectedDay: this.props.date,
@@ -121,7 +122,7 @@ class Calender extends Component {
 
 	render() {
 		// console.log(this.febDays,"febDays", this.state, "rndr state...");
-		const { month, year, months, weekDays, today, tableCells, showMonth } = this.state;
+		const { date ,month, year, months, weekDays, today, tableCells, showMonth } = this.state;
 		// to get the first day of month
 		var firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
 
@@ -137,8 +138,11 @@ class Calender extends Component {
 		var pastDays = (tableCells - currentMonthDays) - position;
 		var nextDays = tableCells - (pastDays + currentMonthDays);
 		var calender = [];
+		var popDay = pastDays + date - 1 ;
 
-		// console.log(nextMonthDays, pastDays, nextDays, position, "position...");
+		console.log(date, "date",pastDays,"pastDays", position, "position...", popDay, "popDay");
+
+		console.log(pastDays + currentMonthDays, "...////")
 
 		// loop to add previous month days into an array
 		while (pastDays > 0) { 
@@ -191,9 +195,18 @@ class Calender extends Component {
 
 							<div className="date-table">
 								{
-									calender.length /*=== tableCells*/ ? calender.map((DATE, idx) => (
-										<p className={ DATE === this.date.getDate() /*&&  this.date.getDay() === new Date().getDay() */? "day current-day": "day" } onClick={this.handleDay} key={idx}>{ DATE }</p>
-									)) : null
+									calender.length ?
+										calender.map((DATE, idx) => (
+											<p className={
+												(idx < pastDays || idx > (pastDays + currentMonthDays)) ?
+													"fade":
+												DATE === date && calender.indexOf(DATE) === popDay ?
+												 "day current-day" : "day"
+												}
+												onClick={ idx > pastDays || idx <= (pastDays + currentMonthDays) ? this.handleDay : null }
+												key={idx}
+												data-key={idx}>{ DATE }</p>
+										)) : null
 								}
 							</div>
 							<div className="calender-footer">
