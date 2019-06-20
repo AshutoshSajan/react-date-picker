@@ -1,0 +1,8 @@
+.select-format-btn {
+	outline: none;
+	background-color: transparent;
+	border: 0;
+	color: dodgerblue;
+	font-size: 15px;
+	text-transform: uppercase;
+}

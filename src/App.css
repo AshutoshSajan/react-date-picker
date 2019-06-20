@@ -1,4 +1,7 @@
 @import url('calender.css');
+@import url('reset.css');
+@import url('dateformat.css');
+
 .app {
   display: grid;
   place-items: center;
@@ -24,4 +27,8 @@
 .far, .fas, .main-input {
   /*font-size: 20px;*/
   color: #666;
+}
+
+.error::-webkit-input-placeholder {
+  color: red;
 }

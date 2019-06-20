@@ -26,11 +26,17 @@
 }
 
 .today {
-	text-align: center;
+	/*text-align: center;*/
 	color: dodgerblue;
 	cursor: pointer;
-	padding: 10px 0;
+	/*padding: 10px 0;*/
 	text-transform: uppercase;
+}
+
+.calender-footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
 }
 
 .month {
@@ -64,4 +70,20 @@
 .active {
 	background-color: dodgerblue;
 	color: #fff;
+}
+
+.disply-month {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 5px;
+	grid-auto-flow: row;
+}
+
+.disply-month p {
+	padding: 4px 10px;
+	cursor: pointer;
+}
+
+.current-month {
+	color: green;
 }
