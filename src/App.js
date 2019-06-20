@@ -51,18 +51,20 @@ class App extends Component {
     console.log(data, this.format, "data...");
     var a = 'DD/MM/YYYY'
     var b = 'MM/DD/YYYY'
-    var c = 'YYYY/MM/DD'
-    var d = 'YYYY/DD/MMMM'
+    var c = 'YYYY/MM/DD' //current format
+    var d = 'YYYY/DD/MM'
 
     if(this.format === a){
       var res = data.split('/').reverse().join('/');
       this.setState({ date: res });
     } else if(this.format === b){
-      var res = data.split('/').sort((a,b)=> b -a ).reverse();
+      var res = data.split('/').sort((a,b)=> b -a ).reverse().join('/');
       this.setState({ date: res });
-    } else if(this.format === 'DD/MM/YYYY'){
-      var res = data.split('/').reverse().join('/');
-      this.setState({ date: res });
+    } else if(this.format === d){
+      var arr = data.split('/');
+      arr.splice(1, 2, arr[2], arr[1]);
+      console.log(arr, "res....");
+      this.setState({ date: arr.join('/') });
     } else {
       this.setState({ date: data });
     }

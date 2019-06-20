@@ -116,9 +116,7 @@ class Calender extends Component {
 		this.setState({
 			month: (months.indexOf(e.target.innerText) + 1),
 			showMonth: !showMonth 
-		},
-		() => this.props.today(selectedDay),
-		);
+		}, () => this.props.today(selectedDay));
 	}
 
 	render() {
