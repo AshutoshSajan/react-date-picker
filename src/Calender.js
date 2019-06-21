@@ -5,9 +5,9 @@ class Calender extends Component {
 
 	constructor(props){
 		super(props);
-		console.log(this.props.date, "date prop...");
+		// console.log(this.props.date, "date prop...");
 		this.dateFromInput = this.props.date;
-		console.log(this.dateFromInput.split('/')[0], "prop cal...");
+		// console.log(this.dateFromInput.split('/')[0], "prop cal...");
 		this.date = new Date();
 		this.febDays = "";
 		this.state = {
@@ -23,7 +23,7 @@ class Calender extends Component {
 			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth(): this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate() : this.date.getDate() }`,
 			tableCells: 42,
 			days : this.getMonthDays(this.date.getFullYear(), this.date.getMonth() + 1),
-			selectedDay: this.props.date ,
+			selectedDay: "" ,
 			active: "active",
 			showMonth: false
 			// allFormats: ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY/MM/DD", "YYYY/DD/MMMM"]
@@ -86,26 +86,18 @@ class Calender extends Component {
 
 	handleDay = (e) => {
 		const { innerText } = e.target;
+		console.log(innerText, "innerText...");
 		// // this.setState({ active: "" });
 		// // this.setState({ active: "active" });
-		const { format, month, year, active } = this.state;
-		// // e.target.classList.add(active);
-		// if(format === "DD/MM/YYYY"){
-		// 	const selectedDay = `${innerText.length < 2 ? "0" + innerText : innerText }/${month.toString().length < 2 ? "0" + month : month }/${year}`;
-		// } else if (format === "MM/DD/YYYY"){
-		// 	const selectedDay = `${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }/${year}/`;
-
-		// }else if (format === "YYYY/MM/DD"){
-		// 	const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
-		// }else if (format === "YYYY/DD/MMMM"){
-		// 	const selectedDay = `${year}/${innerText.length < 2 ? "0" + innerText : innerText }/${month.toString().length < 2 ? "0" + month : month }`;
-		// }
-
+		const { month, year, active } = this.state;
+		
 		// user selected date from calender
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
 
-		this.setState({ selectedDay });
-		this.props.today(selectedDay);
+		console.log(selectedDay, "selectedDay...");
+
+		this.setState({ selectedDay }, this.props.today(selectedDay));
+		
 	}
 
 	handleMonth = () => {
@@ -115,16 +107,16 @@ class Calender extends Component {
 	selectMonth = (e) => {
 		const { date,month, months, year, selectedDay, showMonth } = this.state;
 		var mnth = (months.indexOf(e.target.innerText) + 1);
-		console.log(mnth, "mnth...");
+		// console.log(mnth, "mnth...");
 		const selected = `${year}/${month.toString().length < 2 ? "0" + month : month }/${date.length < 2 ? "0" + date : date }`;
 
 		this.setState({
 				month: mnth,
 				showMonth: !showMonth
 		}, () => {
-			console.log('bfr callback...');
+			// console.log('bfr callback...');
 			this.props.today(selected);
-			console.log(this.state,'aftr callback...');
+			// console.log('bfr callback...');
 		});
 	}
 
@@ -148,9 +140,9 @@ class Calender extends Component {
 		var calender = [];
 		var popDay = pastDays + date - 1 ;
 
-		console.log(date, "date",pastDays,"pastDays", position, "position...", popDay, "popDay");
+		// console.log(date, "date",pastDays,"pastDays", position, "position...", popDay, "popDay");
 
-		console.log(pastDays + currentMonthDays, "...////")
+		// console.log(pastDays + currentMonthDays, "...////");
 
 		// loop to add previous month days into an array
 		while (pastDays > 0) { 
@@ -206,12 +198,12 @@ class Calender extends Component {
 									calender.length ?
 										calender.map((DATE, idx) => (
 											<p className={
-												(idx < pastDays || idx > (pastDays + currentMonthDays)) ?
-													"fade":
+												// (idx < pastDays || idx > (pastDays + currentMonthDays)) ?
+												// 	"fade":
 												DATE === date && calender.indexOf(DATE) === popDay ?
 												 "day current-day" : "day"
 												}
-												onClick={ idx > pastDays || idx <= (pastDays + currentMonthDays) ? this.handleDay : null }
+												onClick={ /*idx > pastDays || idx <= (pastDays + currentMonthDays) ? */this.handleDay /*: null*/ }
 												key={idx}
 												data-key={idx}>{ DATE }</p>
 										)) : null
