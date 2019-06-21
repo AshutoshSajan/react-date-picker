@@ -5,9 +5,10 @@ import Calender from './Calender';
 class App extends Component {
   constructor(){
     super();
+    this.date = new Date();
     this.format = "YYYY/MM/DD";
     this.state = {
-      date: "",
+      date: this.date.toISOString().split("T")[0].split('-').join("/"),
       icon: true,
       calender: false,
       error: "",
@@ -50,24 +51,25 @@ class App extends Component {
 
   today = (data) => {
     console.log(data, this.format, "data...");
-    var a = 'DD/MM/YYYY'
-    var b = 'MM/DD/YYYY'
-    var c = 'YYYY/MM/DD' //current format
-    var d = 'YYYY/DD/MM'
+    var dta = this.date.toISOString().split("T")[0].split('-').join("/");
+    var a = 'DD/MM/YYYY';
+    var b = 'MM/DD/YYYY';
+    var c = 'YYYY/DD/MM';
+    var d = 'YYYY/MM/DD'; //current format
 
     if(this.format === a){
-      var res = data.split('/').reverse().join('/');
+      var res = dta.split('/').reverse().join("/");
       this.setState({ date: res });
     } else if(this.format === b){
-      var res = data.split('/').sort((a,b)=> b -a ).reverse().join('/');
+      var res = dta.split('/').splice(1).concat(dta.split('/')[0]).join('/');
       this.setState({ date: res });
-    } else if(this.format === d){
-      var arr = data.split('/');
-      arr.splice(1, 2, arr[2], arr[1]);
-      console.log(arr, "res....");
-      this.setState({ date: arr.join('/') });
+    } else if(this.format === c){
+      var x = dta.split('/');
+      var v = x.splice(1,1);
+      var res = x.concat(v).join('/');
+      this.setState({ date: res });
     } else {
-      this.setState({ date: data });
+      this.setState({ date: dta });
     }
   }
 

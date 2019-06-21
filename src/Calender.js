@@ -12,10 +12,10 @@ class Calender extends Component {
 		this.febDays = "";
 		this.state = {
 			format: this.props.format,
-			date: this.props.date ? this.props.date.split('/')[1] : this.date.getDate(),
+			date: this.props.date ? this.props.date.split('/')[2] : this.date.getDate(),
 			day: this.date.getDay(),
-			month: this.props.date ? this.props.date.split('/')[0] : this.date.getMonth() + 1,
-			year: this.props.date ? this.props.date.split('/')[2]  : this.date.getFullYear(),
+			month: this.props.date ? this.props.date.split('/')[1] : this.date.getMonth() + 1,
+			year: this.props.date ? this.props.date.split('/')[0] : this.date.getFullYear(),
 			weekDays: ["SUN","MON", "TUE", "WED","THU","FRI", "SAT"],
 			months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
 			daysOfMonth: ["31", `${this.febDays || "" }`, "31", "30", "31", "30", "31", "31", "30", "31", "30", "31"],
@@ -23,7 +23,7 @@ class Calender extends Component {
 			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth(): this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate() : this.date.getDate() }`,
 			tableCells: 42,
 			days : this.getMonthDays(this.date.getFullYear(), this.date.getMonth() + 1),
-			selectedDay: this.props.date,
+			selectedDay: this.props.date ,
 			active: "active",
 			showMonth: false
 			// allFormats: ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY/MM/DD", "YYYY/DD/MMMM"]
@@ -113,11 +113,19 @@ class Calender extends Component {
 	}
 
 	selectMonth = (e) => {
-		const { month, months, year, selectedDay, showMonth } = this.state;
+		const { date,month, months, year, selectedDay, showMonth } = this.state;
+		var mnth = (months.indexOf(e.target.innerText) + 1);
+		console.log(mnth, "mnth...");
+		const selected = `${year}/${month.toString().length < 2 ? "0" + month : month }/${date.length < 2 ? "0" + date : date }`;
+
 		this.setState({
-			month: (months.indexOf(e.target.innerText) + 1),
-			showMonth: !showMonth 
-		}, () => this.props.today(selectedDay));
+				month: mnth,
+				showMonth: !showMonth
+		}, () => {
+			console.log('bfr callback...');
+			this.props.today(selected);
+			console.log(this.state,'aftr callback...');
+		});
 	}
 
 	render() {
