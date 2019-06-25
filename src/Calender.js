@@ -7,7 +7,7 @@ class Calender extends Component {
 		super(props);
 		// console.log(this.props.date, "date prop...");
 		this.dateFromInput = this.props.date;
-		// console.log(this.dateFromInput.split('/')[0], "prop cal...");
+		// console.log(`%c ${this.dateFromInput.split('/')[0]} app date...`, "color: red");
 		this.date = new Date();
 		this.state = {
 			format: this.props.format,
@@ -131,7 +131,7 @@ class Calender extends Component {
 	selectMonth = (e) => {
 		const { date, month, months, year, showMonth, selectedDay } = this.state;
 		var selectedMonth = months.findIndex(v => v === e.target.innerText) + 1;
-		console.log(`%c selectedMonth ${selectedMonth}`, 'color: green');
+		// console.log(`%c selectedMonth ${selectedMonth}`, 'color: green');
 		
 		const selected = `${year}/${selectedMonth.toString().length < 2 ? "0" + selectedMonth.toString() : selectedMonth }/${date.length < 2 ? "0" + date : date }`;
 		
@@ -169,7 +169,7 @@ class Calender extends Component {
 
 		var nextDays = tableCells - (position + currentMonthDays);
 		var calender = [];
-		var popDay = pastDays + date - 1 ;
+		// var popDay = pastDays + date - 1 ;
 
 		// console.log(date, "date",pastDays,"pastDays", position, "position...", popDay, "popDay");
 
@@ -188,7 +188,7 @@ class Calender extends Component {
 
 		// loop to add past month days into an array
 		for(var j = 1; j <= nextDays; j++){
-			calender.push(i);
+			calender.push(j);
 		}
 
 		return (
@@ -230,13 +230,13 @@ class Calender extends Component {
 										calender.map((DATE, index) => (
 											
 											<p className={
-												(index < popDay.toString().slice(0,1) || index >= (Number(popDay.toString().slice(0,1)) + currentMonthDays)) ?
+												(index < position || index >= position + currentMonthDays) ?
 													"fade":
 													DATE === this.date.getDate() && index === this.date.getDate() + position - 1 ?
 												 	"day current-day" : "day"
 												}
 												onClick={
-												 (index < popDay.toString().slice(0,1) || index >= (Number(popDay.toString().slice(0,1)) + currentMonthDays)) ? null : this.handleDay 
+												 (index < position || index >= position + currentMonthDays) ? null : this.handleDay 
 												}
 												key={index}
 												data-key={index+1}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Calender from './Calender';
-// import { swap } from './functions/function';
+import { swap } from './functions/function';
 
 class App extends Component {
   constructor(){
@@ -37,6 +37,9 @@ class App extends Component {
   // date format handler function
   handleFormat = (format) => {
     this.format = format;
+    this.setState({ date: "" });
+    // var date = new Date(this.state.date).toLocaleDateString();
+    // console.log(`%c handle format ${date}`, 'color: green');
     // this.today(this.state.date);
     // console.log(this.format, "app format fired...");
   }
@@ -44,41 +47,38 @@ class App extends Component {
   today = (data) => {
     console.log(this.state, data, "state date...");
     this.setState({ date: data })
-    /*console.log(`%c ${data}, ${this.format} data...`, 'color: blue');
+    console.log(`%c ${data}, ${this.format} data...`, 'color: darkred');
     if(data){
-      var dta = new Date(this.state.date).toLocaleDateString() || new Date(data.split('/').reverse().join()).toLocaleDateString();
-      console.log(dta, "dta....");
-      if (typeof(dta) === "string"){
+      // var data = new Date(this.state.date).toLocaleDateString() || new Date(data.split('/').reverse().join()).toLocaleDateString();
+      // console.log(dta, "dta....");
+      // if (typeof(dta) === "string"){
         // console.log(d.getTime());
         // console.log(d, "after normat format data...");
         var a = 'DD/MM/YYYY';
         var b = 'MM/DD/YYYY';
-        // var c = 'YYYY/DD/MM';
+        var c = 'YYYY/DD/MM';
         var d = 'YYYY/MM/DD'; //current format
 
         if(this.format === a){
-          var result = dta.split('/').reverse().join("/");
-          console.log(dta,'def date result...');
-          this.setState({ date: dta });
-
+          const result = data.split('/').reverse().join("/");
+          console.log(result,'d/m/y date format result...');
+          this.setState({ date: result });
         } else if(this.format === b){
-          // var result = swap(dta.split('/'), 0, 1).join('/');
 
-          var result = dta.split('/').splice(1).concat(dta.split('/')[0]).join('/');
+          var result = data.split('/').splice(1).concat(data.split('/')[0]).join('/');
+          console.log(result,'m/d/y date format result...');
+          this.setState({ date: result });
+        } else if(this.format === c){
+          // var x = data.split('/');
+          // var v = x.splice(1,1);
+          // var result = x.concat(v).join('/');
+          const result = swap(data.split('/'), 1, 2).join('/');
           this.setState({ date: result });
           console.log(result,'result...');
         } else {
-          this.setState({ date: dta });
-        } else if(this.format === c){
-        //   // var x = dta.split('/');
-        //   // var v = x.splice(1,1);
-        //   // var result = x.concat(v).join('/');
-        //   // var result = swap(dta.split('/'), 1, 2).join('/');
-        //   var result = dta.split('/').reverse().join('/');
-        //   this.setState({ date: result });
-        //   console.log(result,'result...');
-        }*/
-      // } 
+          this.setState({ date: data });
+        } 
+      } 
     // }
   }
 
@@ -92,10 +92,14 @@ class App extends Component {
     if(e.keyCode === 13 && e.target.value.trim()){
       var a = e.target.value.split("/");
       if(a.length === 3){
-        // console.log(a,'a...');
-        // if((a[0].length <= 2 && Number(a[0]) <= 31) && (a[1].length <= 2 && Number(a[1]) <= 12) && a[2].length === 4){
-        //   this.setState({ date: e.target.value, inputDate: e.target.value });
-        // } else this.setState({ date: "" , error: "invalid date format", sendDate: true });
+        console.log(a,'a...');
+        if((a[0].length <= 2 && Number(a[0]) <= 31) && (a[1].length <= 2 && Number(a[1]) <= 12) && a[2].length === 4){
+          this.setState({
+            date: e.target.value,
+          });
+        } else {
+          this.setState({ date:"" , error:"DD/MM/YYYY Add This Date Format" });
+        }
       };
     };
   }
