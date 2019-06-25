@@ -9,7 +9,6 @@ class Calender extends Component {
 		this.dateFromInput = this.props.date;
 		// console.log(this.dateFromInput.split('/')[0], "prop cal...");
 		this.date = new Date();
-		this.febDays = "";
 		this.state = {
 			format: this.props.format,
 			date: this.props.date ? this.props.date.split('/')[2] : this.date.getDate(),
@@ -18,15 +17,12 @@ class Calender extends Component {
 			year: this.props.date ? this.props.date.split('/')[0] : this.date.getFullYear(),
 			weekDays: ["SUN","MON", "TUE", "WED","THU","FRI", "SAT"],
 			months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-			daysOfMonth: ["31", `${this.febDays || "" }`, "31", "30", "31", "30", "31", "31", "30", "31", "30", "31"],
 
-			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth(): this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate() : this.date.getDate() }`,
+			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth().toString(): this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }`,
 			tableCells: 42,
-			days : this.getMonthDays(this.date.getFullYear(), this.date.getMonth() + 1),
-			selectedDay: "" ,
+			selectedDay: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth().toString() : this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }` ,
 			active: "active",
 			showMonth: false
-			// allFormats: ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY/MM/DD", "YYYY/DD/MMMM"]
 		}
 	}
 
@@ -47,43 +43,63 @@ class Calender extends Component {
 	// }
 
 	handleClick = (e) => {
+		const { date, month, year, selectedDay } = this.state;
 
-		const { date, month, months, year, showMonth } = this.state;
+		// const currentDate = `${this.state.year}/${month.toString().length < 2 ? "0" + month.toString() : month }/${date.toString().length < 2 ? "0" + date.toString() : date }`;
 
-
-		const currentDate = `${year}/${month.toString().length < 2 ? "0" + month : month }/${date < 2 ? "0" + date : date }`;
-
-		// this.setState({  });
 
 		if(e.target.dataset.key === "dec-year"){
-			this.setState( (state) => {
-				state.year = --state.year;
-				state.selectedDay = currentDate;
-			},() =>	this.props.today(this.state.selectedDay));
+			this.setState({
+					year: --this.state.year,
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
+				},
+				() =>	this.props.today(this.state.selectedDay)
+			);
 		} else if(e.target.dataset.key === "dec-month"){			
 			if(this.state.month === 1){
-				this.setState({ year: --this.state.year , month: 12 , selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
+				this.setState({
+					year: --this.state.year , month: 12,
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
+					},
+				 () => this.props.today(this.state.selectedDay));
 			} else {
-				this.setState({ month: --this.state.month, selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
+				this.setState({
+					month: --this.state.month,
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
+				},
+				() => this.props.today(this.state.selectedDay));
 			}
 		} else if(e.target.dataset.key === "inc-year"){
-			this.setState({ year: ++this.state.year, selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
+			this.setState({
+				year: ++this.state.year,
+				selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
+			},
+			() => this.props.today(this.state.selectedDay));
 		} else if(e.target.dataset.key === "inc-month"){
 			if(this.state.month === 12){
-				this.setState({ year: ++this.state.year , month: 1 , selectedDay: currentDate}, () => this.props.today(this.state.selectedDay));
+				this.setState({
+					year: ++this.state.year,
+					month: 1,
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
+				},
+				() => this.props.today(this.state.selectedDay));
 			} else {
-				this.setState({ month: ++this.state.month, selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
+				this.setState({
+					month: ++this.state.month,
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
+				},
+				() => this.props.today(this.state.selectedDay));
 			}
 		}else	return null;
 	}
 
 	getMonthDays = (year, month, num = 0) => {
 		if(num === 0){
-			var date = new Date(year, month, num);
-    	return date.getDate();
+			var date1 = new Date(year, month, num);
+    	return date1.getDate();
 		} else if (num === 1){
-			var date = new Date(year, month, num);
-    	return date.toDateString();
+			var date2 = new Date(year, month, num);
+    	return date2.toDateString();
 		} else { return null };
 	}
 
@@ -98,21 +114,14 @@ class Calender extends Component {
 	handleDay = (e) => {
 		const { innerText } = e.target;
 		const { month, year, active } = this.state;
-		console.log(innerText, "calender innerText...");
-		// // this.setState({ active: "" });
-		// // this.setState({ active: "active" });
 		
 		// user selected date from calender
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
 
-		console.log(`%c calender selectedDay ${innerText}`, 'color:green; fontSize:40px;');
-
-		this.setState((state) => {
-			 	state.selectedDay = selectedDay;
-			 	},() => {
-				this.props.today(this.state.selectedDay);
-			});
-		
+		this.setState(
+			{ date: innerText, selectedDay: selectedDay },
+			() => this.props.today(selectedDay)
+			);
 	}
 
 	handleMonth = () => {
@@ -120,18 +129,18 @@ class Calender extends Component {
 	}
 
 	selectMonth = (e) => {
-		const { date,month, months, year, selectedDay, showMonth } = this.state;
-		var mnth = (months.indexOf(e.target.innerText) + 1);
-		// console.log(mnth, "mnth...");
-		const selected = `${year}/${month.toString().length < 2 ? "0" + month : month }/${date.length < 2 ? "0" + date : date }`;
-
+		const { date, month, months, year, showMonth, selectedDay } = this.state;
+		var selectedMonth = months.findIndex(v => v === e.target.innerText) + 1;
+		console.log(`%c selectedMonth ${selectedMonth}`, 'color: green');
+		
+		const selected = `${year}/${selectedMonth.toString().length < 2 ? "0" + selectedMonth.toString() : selectedMonth }/${date.length < 2 ? "0" + date : date }`;
+		
 		this.setState({
-				month: mnth,
-				showMonth: !showMonth
+				month: selectedMonth,
+				showMonth: !showMonth,
+				selectedDay: selected,
 		}, () => {
-			console.log('bfr callback...');
 			this.props.today(selected);
-			console.log('aftr callback...');
 		});
 	}
 
@@ -141,22 +150,22 @@ class Calender extends Component {
 		// to get the first day of month
 		var firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
 
-		console.log(`%c first day ${firstDay}`, 'color:green;');
+		// console.log(`%c first day ${firstDay}`, 'color:green;');
 		// to get the all days of previous month
 		var previousMonthDays = this.getMonthDays(year, (month - 1));
 		
 		// to get the all days of current month
 		var currentMonthDays = this.getMonthDays(year, month);
-		console.log(`%c currentMonthDays ${currentMonthDays}`, 'color:yellow;');
+		// console.log(`%c currentMonthDays ${currentMonthDays}`, 'color:yellow;');
 
 
 		// to get the all days of next month
-		var nextMonthDays = this.getMonthDays(year, (month + 1));
+		// var nextMonthDays = this.getMonthDays(year, (month + 1));
 		var position = weekDays.indexOf(firstDay[0].toUpperCase());
-		console.log(`%c position ${position}`, 'color:red;');
+		// console.log(`%c position ${position}`, 'color:red;');
 
 		var pastDays =  position;
-		console.log(`%c pastDays... ${ pastDays }`, 'color: blue;');
+		// console.log(`%c pastDays... ${ pastDays }`, 'color: blue;');
 
 		var nextDays = tableCells - (position + currentMonthDays);
 		var calender = [];
@@ -178,7 +187,7 @@ class Calender extends Component {
 		}
 
 		// loop to add past month days into an array
-		for(var i = 1; i <= nextDays; i++){
+		for(var j = 1; j <= nextDays; j++){
 			calender.push(i);
 		}
 
@@ -223,7 +232,7 @@ class Calender extends Component {
 											<p className={
 												(index < popDay.toString().slice(0,1) || index >= (Number(popDay.toString().slice(0,1)) + currentMonthDays)) ?
 													"fade":
-													DATE == this.date.getDate() && index == this.date.getDate() + position - 1 ?
+													DATE === this.date.getDate() && index === this.date.getDate() + position - 1 ?
 												 	"day current-day" : "day"
 												}
 												onClick={
@@ -234,20 +243,6 @@ class Calender extends Component {
 												{DATE}
 												</p>
 										)) : null
-
-
-
-											// =========================
-										// 	<p className={
-										// 		// (index < pastDays || index > (pastDays + currentMonthDays)) ?
-										// 		// 	"fade":
-										// 		DATE === date && calender.indexOf(DATE) === popDay ?
-										// 		 "day current-day" : "day"
-										// 		}
-										// 		onClick={ /*index > pastDays || index <= (pastDays + currentMonthDays) ? */this.handleDay /*: null*/ }
-										// 		key={index}
-										// 		data-key={index}>{ DATE }</p>
-										// )) : null
 								}
 							</div>
 							<div className="calender-footer">

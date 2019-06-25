@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Calender from './Calender';
-import { swap } from './functions/function';
+// import { swap } from './functions/function';
 
 class App extends Component {
   constructor(){
@@ -37,15 +37,16 @@ class App extends Component {
   // date format handler function
   handleFormat = (format) => {
     this.format = format;
-    this.today(this.state.date);
+    // this.today(this.state.date);
     // console.log(this.format, "app format fired...");
   }
 
   today = (data) => {
-    console.log(this.state, "state date...");
-    console.log(`%c ${data}, ${this.format} data...`, 'color: blue');
+    console.log(this.state, data, "state date...");
+    this.setState({ date: data })
+    /*console.log(`%c ${data}, ${this.format} data...`, 'color: blue');
     if(data){
-      var dta = new Date(data).toLocaleDateString() || new Date(data.split('/').reverse().join()).toLocaleDateString();
+      var dta = new Date(this.state.date).toLocaleDateString() || new Date(data.split('/').reverse().join()).toLocaleDateString();
       console.log(dta, "dta....");
       if (typeof(dta) === "string"){
         // console.log(d.getTime());
@@ -68,7 +69,7 @@ class App extends Component {
           console.log(result,'result...');
         } else {
           this.setState({ date: dta });
-        } /*else if(this.format === c){
+        } else if(this.format === c){
         //   // var x = dta.split('/');
         //   // var v = x.splice(1,1);
         //   // var result = x.concat(v).join('/');
@@ -77,8 +78,8 @@ class App extends Component {
         //   this.setState({ date: result });
         //   console.log(result,'result...');
         }*/
-      } 
-    }
+      // } 
+    // }
   }
 
   handleChage = (e) => {
