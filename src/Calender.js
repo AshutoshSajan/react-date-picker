@@ -47,21 +47,32 @@ class Calender extends Component {
 	// }
 
 	handleClick = (e) => {
+
+		const { date, month, months, year, showMonth } = this.state;
+
+
+		const currentDate = `${year}/${month.toString().length < 2 ? "0" + month : month }/${date < 2 ? "0" + date : date }`;
+
+		// this.setState({  });
+
 		if(e.target.dataset.key === "dec-year"){
-			this.setState({ year: --this.state.year });
+			this.setState( (state) => {
+				state.year = --state.year;
+				state.selectedDay = currentDate;
+			},() =>	this.props.today(this.state.selectedDay));
 		} else if(e.target.dataset.key === "dec-month"){			
 			if(this.state.month === 1){
-				this.setState({ year: --this.state.year , month: 12 });
+				this.setState({ year: --this.state.year , month: 12 , selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
 			} else {
-				this.setState({ month: --this.state.month });
+				this.setState({ month: --this.state.month, selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
 			}
 		} else if(e.target.dataset.key === "inc-year"){
-			this.setState({ year: ++this.state.year });
+			this.setState({ year: ++this.state.year, selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
 		} else if(e.target.dataset.key === "inc-month"){
 			if(this.state.month === 12){
-				this.setState({ year: ++this.state.year , month: 1 });
+				this.setState({ year: ++this.state.year , month: 1 , selectedDay: currentDate}, () => this.props.today(this.state.selectedDay));
 			} else {
-				this.setState({ month: ++this.state.month });
+				this.setState({ month: ++this.state.month, selectedDay: currentDate }, () => this.props.today(this.state.selectedDay));
 			}
 		}else	return null;
 	}
@@ -86,17 +97,21 @@ class Calender extends Component {
 
 	handleDay = (e) => {
 		const { innerText } = e.target;
-		console.log(innerText, "innerText...");
+		const { month, year, active } = this.state;
+		console.log(innerText, "calender innerText...");
 		// // this.setState({ active: "" });
 		// // this.setState({ active: "active" });
-		const { month, year, active } = this.state;
 		
 		// user selected date from calender
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
 
-		console.log(selectedDay, "selectedDay...");
+		console.log(`%c calender selectedDay ${innerText}`, 'color:green; fontSize:40px;');
 
-		this.setState({ selectedDay }, this.props.today(selectedDay));
+		this.setState((state) => {
+			 	state.selectedDay = selectedDay;
+			 	},() => {
+				this.props.today(this.state.selectedDay);
+			});
 		
 	}
 
@@ -114,9 +129,9 @@ class Calender extends Component {
 				month: mnth,
 				showMonth: !showMonth
 		}, () => {
-			// console.log('bfr callback...');
+			console.log('bfr callback...');
 			this.props.today(selected);
-			// console.log('bfr callback...');
+			console.log('aftr callback...');
 		});
 	}
 
@@ -126,17 +141,24 @@ class Calender extends Component {
 		// to get the first day of month
 		var firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
 
+		console.log(`%c first day ${firstDay}`, 'color:green;');
 		// to get the all days of previous month
 		var previousMonthDays = this.getMonthDays(year, (month - 1));
 		
 		// to get the all days of current month
 		var currentMonthDays = this.getMonthDays(year, month);
+		console.log(`%c currentMonthDays ${currentMonthDays}`, 'color:yellow;');
+
 
 		// to get the all days of next month
 		var nextMonthDays = this.getMonthDays(year, (month + 1));
 		var position = weekDays.indexOf(firstDay[0].toUpperCase());
-		var pastDays = (tableCells - currentMonthDays) - position;
-		var nextDays = tableCells - (pastDays + currentMonthDays);
+		console.log(`%c position ${position}`, 'color:red;');
+
+		var pastDays =  position;
+		console.log(`%c pastDays... ${ pastDays }`, 'color: blue;');
+
+		var nextDays = tableCells - (position + currentMonthDays);
 		var calender = [];
 		var popDay = pastDays + date - 1 ;
 
@@ -196,17 +218,36 @@ class Calender extends Component {
 							<div className="date-table">
 								{
 									calender.length ?
-										calender.map((DATE, idx) => (
+										calender.map((DATE, index) => (
+											
 											<p className={
-												// (idx < pastDays || idx > (pastDays + currentMonthDays)) ?
-												// 	"fade":
-												DATE === date && calender.indexOf(DATE) === popDay ?
-												 "day current-day" : "day"
+												(index < popDay.toString().slice(0,1) || index >= (Number(popDay.toString().slice(0,1)) + currentMonthDays)) ?
+													"fade":
+													DATE == this.date.getDate() && index == this.date.getDate() + position - 1 ?
+												 	"day current-day" : "day"
 												}
-												onClick={ /*idx > pastDays || idx <= (pastDays + currentMonthDays) ? */this.handleDay /*: null*/ }
-												key={idx}
-												data-key={idx}>{ DATE }</p>
+												onClick={
+												 (index < popDay.toString().slice(0,1) || index >= (Number(popDay.toString().slice(0,1)) + currentMonthDays)) ? null : this.handleDay 
+												}
+												key={index}
+												data-key={index+1}>
+												{DATE}
+												</p>
 										)) : null
+
+
+
+											// =========================
+										// 	<p className={
+										// 		// (index < pastDays || index > (pastDays + currentMonthDays)) ?
+										// 		// 	"fade":
+										// 		DATE === date && calender.indexOf(DATE) === popDay ?
+										// 		 "day current-day" : "day"
+										// 		}
+										// 		onClick={ /*index > pastDays || index <= (pastDays + currentMonthDays) ? */this.handleDay /*: null*/ }
+										// 		key={index}
+										// 		data-key={index}>{ DATE }</p>
+										// )) : null
 								}
 							</div>
 							<div className="calender-footer">

@@ -16,7 +16,7 @@ class DateFormat extends Component {
 					<option>DD/MM/YYYY</option>
 					<option>MM/DD/YYYY</option>
 					<option>YYYY/MM/DD</option>
-					<option>YYYY/DD/MM</option>
+					{/* <option>YYYY/DD/MM</option>*/}
 				</select>
 			</div>
 		);

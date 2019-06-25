@@ -32,3 +32,8 @@
 .error::-webkit-input-placeholder {
   color: red;
 }
+
+.clear-input {
+  display: inline-block;
+  transform: rotate(45deg);
+}

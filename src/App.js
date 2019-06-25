@@ -13,7 +13,6 @@ class App extends Component {
       icon: true,
       calender: false,
       error: "",
-      // sendDate: false,
     }
   }
 
@@ -35,14 +34,6 @@ class App extends Component {
     this.setState({ icon: true, date: "" });
   }
 
-  // handleFocus = () => {
-  //   this.setState({ calender: !this.state.calender });
-  // }
-
-  // handleBlur = () => {
-  //   this.setState({ calender: false });
-  // }
-
   // date format handler function
   handleFormat = (format) => {
     this.format = format;
@@ -51,44 +42,42 @@ class App extends Component {
   }
 
   today = (data) => {
-    console.log(data, this.format, "data...");
+    console.log(this.state, "state date...");
+    console.log(`%c ${data}, ${this.format} data...`, 'color: blue');
     if(data){
-      // var random = data.split('/').sort(() => Math.random() - 0.5).join('/');
-
-      // console.log(random, "random...");
-      // console.log(new Date(random), "1");
-      var dta = new Date(data).toISOString().split("T")[0].split('-').join("/");
-      
-      if (dta){
+      var dta = new Date(data).toLocaleDateString() || new Date(data.split('/').reverse().join()).toLocaleDateString();
+      console.log(dta, "dta....");
+      if (typeof(dta) === "string"){
         // console.log(d.getTime());
         // console.log(d, "after normat format data...");
         var a = 'DD/MM/YYYY';
         var b = 'MM/DD/YYYY';
-        var c = 'YYYY/DD/MM';
+        // var c = 'YYYY/DD/MM';
         var d = 'YYYY/MM/DD'; //current format
 
         if(this.format === a){
           var result = dta.split('/').reverse().join("/");
-          console.log(result,'result...');
-          this.setState({ date: result });
+          console.log(dta,'def date result...');
+          this.setState({ date: dta });
+
         } else if(this.format === b){
+          // var result = swap(dta.split('/'), 0, 1).join('/');
+
           var result = dta.split('/').splice(1).concat(dta.split('/')[0]).join('/');
-          this.setState({ date: result });
-          console.log(result,'result...');
-        } else if(this.format === c){
-          // var x = dta.split('/');
-          // var v = x.splice(1,1);
-          // var result = x.concat(v).join('/');
-          var result = swap(dta.split('/'), 1, 2).join('/');
           this.setState({ date: result });
           console.log(result,'result...');
         } else {
           this.setState({ date: dta });
-          console.log(result,'result...');
-        }
-      } else {
-        this.today();
-      }
+        } /*else if(this.format === c){
+        //   // var x = dta.split('/');
+        //   // var v = x.splice(1,1);
+        //   // var result = x.concat(v).join('/');
+        //   // var result = swap(dta.split('/'), 1, 2).join('/');
+        //   var result = dta.split('/').reverse().join('/');
+        //   this.setState({ date: result });
+        //   console.log(result,'result...');
+        }*/
+      } 
     }
   }
 
@@ -117,6 +106,10 @@ class App extends Component {
         <div className="input-box" onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} >
           <input type="text" className={ this.state.error ? "error main-input" : "main-input" } placeholder={ this.state.error ||"Select Date"} name="date" value={ this.state.date } onChange={ this.handleChage } onKeyDown={ this.handleEnter } />
             {
+              /*!navigator.online && this.state.icon ?
+                <span>[::]</span>
+                : <span className="clear-input" onClick={this.handleClear}>+</span>
+              :*/
               this.state.icon ? <i className="far fa-calendar"></i>
               : <i className="fas fa-times-circle" onClick={this.handleClear}></i>
             }
