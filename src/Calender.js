@@ -11,68 +11,71 @@ class Calender extends Component {
 		this.date = new Date();
 		this.state = {
 			format: this.props.format,
-			date: this.props.date ? this.props.date.split('/')[2] : this.date.getDate(),
+
 			day: this.date.getDay(),
+
+			date: this.props.date ? this.props.date.split('/')[2] : this.date.getDate(),
+
 			month: this.props.date ? this.props.date.split('/')[1] : this.date.getMonth() + 1,
+
 			year: this.props.date ? this.props.date.split('/')[0] : this.date.getFullYear(),
+
 			weekDays: ["SUN","MON", "TUE", "WED","THU","FRI", "SAT"],
+
 			months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
 
 			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth().toString(): this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }`,
+
 			tableCells: 42,
-			selectedDay: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth().toString() : this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }` ,
+
+			selectedDay: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth().toString() : this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }`,
+
 			active: "active",
+
 			showMonth: false
 		}
 	}
 
-	// componentDidMount() {
-	// 	console.log(this.state.month, "componentDidMount fired...");
+	// funtion to get feb days
+	// if (this.state.month === 2) {
+	//     if ((this.state.year % 100 !== 0) && (this.state.year % 4 === 0) || (this.state.year % 400 === 0)) {
+	//       this.febDays = 29;
+	//     } else {
+	//       this.febDays = 28;
+	//     }
+	//   }else console.log("month is not == 2");
 
-	// 	if (this.state.month === 2) {
- //      if ((this.state.year % 100 !== 0) && (this.state.year % 4 === 0) || (this.state.year % 400 === 0)) {
- //        this.febDays = 29;
- //      } else {
- //        this.febDays = 28;
- //      }
- //    }else console.log("month is not == 2");
-	// }
-
-	// handleFormat = (format) => {
-	// 	console.log(format, "cal frmt fired...");
-	// }
-
+	
 	handleClick = (e) => {
-		const { date, month, year, selectedDay } = this.state;
 
 		// const currentDate = `${this.state.year}/${month.toString().length < 2 ? "0" + month.toString() : month }/${date.toString().length < 2 ? "0" + date.toString() : date }`;
-
 
 		if(e.target.dataset.key === "dec-year"){
 			this.setState({
 					year: --this.state.year,
-					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
 				},
 				() =>	this.props.today(this.state.selectedDay)
 			);
 		} else if(e.target.dataset.key === "dec-month"){			
 			if(this.state.month === 1){
 				this.setState({
-					year: --this.state.year , month: 12,
-					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
+					year: --this.state.year,
+					month: 12,
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
 					},
 				 () => this.props.today(this.state.selectedDay));
 			} else {
 				this.setState({
 					month: --this.state.month,
-					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
 				},
 				() => this.props.today(this.state.selectedDay));
 			}
 		} else if(e.target.dataset.key === "inc-year"){
 			this.setState({
 				year: ++this.state.year,
-				selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
+				selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
 			},
 			() => this.props.today(this.state.selectedDay));
 		} else if(e.target.dataset.key === "inc-month"){
@@ -80,13 +83,13 @@ class Calender extends Component {
 				this.setState({
 					year: ++this.state.year,
 					month: 1,
-					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
 				},
 				() => this.props.today(this.state.selectedDay));
 			} else {
 				this.setState({
 					month: ++this.state.month,
-					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
+					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
 				},
 				() => this.props.today(this.state.selectedDay));
 			}
@@ -113,7 +116,7 @@ class Calender extends Component {
 
 	handleDay = (e) => {
 		const { innerText } = e.target;
-		const { month, year, active } = this.state;
+		const { month, year } = this.state;
 		
 		// user selected date from calender
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
@@ -129,7 +132,7 @@ class Calender extends Component {
 	}
 
 	selectMonth = (e) => {
-		const { date, month, months, year, showMonth, selectedDay } = this.state;
+		const { date, months, year, showMonth } = this.state;
 		var selectedMonth = months.findIndex(v => v === e.target.innerText) + 1;
 		// console.log(`%c selectedMonth ${selectedMonth}`, 'color: green');
 		
@@ -146,7 +149,7 @@ class Calender extends Component {
 
 	render() {
 		// console.log(this.febDays,"febDays", this.state, "rndr state...");
-		const { date ,month, year, months, weekDays, today, tableCells, showMonth } = this.state;
+		const { month, year, months, weekDays, today, tableCells, showMonth } = this.state;
 		// to get the first day of month
 		var firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
 

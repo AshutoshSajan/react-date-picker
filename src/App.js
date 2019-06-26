@@ -45,9 +45,9 @@ class App extends Component {
   }
 
   today = (data) => {
-    console.log(this.state, data, "state date...");
-    this.setState({ date: data })
-    console.log(`%c ${data}, ${this.format} data...`, 'color: darkred');
+    // console.log(this.state, data, "state date...");
+    // this.setState({ date: data })
+    // console.log(`%c ${data}, ${this.format} data...`, 'color: darkred');
     if(data){
       // var data = new Date(this.state.date).toLocaleDateString() || new Date(data.split('/').reverse().join()).toLocaleDateString();
       // console.log(dta, "dta....");
@@ -57,7 +57,7 @@ class App extends Component {
         var a = 'DD/MM/YYYY';
         var b = 'MM/DD/YYYY';
         var c = 'YYYY/DD/MM';
-        var d = 'YYYY/MM/DD'; //current format
+        // var d = 'YYYY/MM/DD'; //current format
 
         if(this.format === a){
           const result = data.split('/').reverse().join("/");
@@ -94,33 +94,37 @@ class App extends Component {
       if(a.length === 3){
         console.log(a,'a...');
         if((a[0].length <= 2 && Number(a[0]) <= 31) && (a[1].length <= 2 && Number(a[1]) <= 12) && a[2].length === 4){
-          this.setState({
-            date: e.target.value,
-          });
+          this.setState({ date: e.target.value });
         } else {
-          this.setState({ date:"" , error:"DD/MM/YYYY Add This Date Format" });
+          this.setState({ date:"" , error:"DD/MM/YYYY ENTER THIS FORMAT" });
         }
       };
     };
   }
 
   render() {
-    // console.log(this.state, this.format);
     return (
-      <div className="app" onClick={ this.handleClick } /*onFocus={this.handleFocus} /*onBlur={this.handleBlur}*/ >
+      <div className="app" onClick={ this.handleClick } >
         <div className="input-box" onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} >
           <input type="text" className={ this.state.error ? "error main-input" : "main-input" } placeholder={ this.state.error ||"Select Date"} name="date" value={ this.state.date } onChange={ this.handleChage } onKeyDown={ this.handleEnter } />
             {
-              /*!navigator.online && this.state.icon ?
-                <span>[::]</span>
+              !navigator.onLine ?
+                this.state.icon ?
+                  <span>[::]</span>
                 : <span className="clear-input" onClick={this.handleClear}>+</span>
-              :*/
-              this.state.icon ? <i className="far fa-calendar"></i>
+              :
+              this.state.icon && navigator.onLine ?
+                <i className="far fa-calendar"></i>
               : <i className="fas fa-times-circle" onClick={this.handleClear}></i>
             }
         </div>
         {
-          this.state.calender ? <Calender today={this.today} date={ this.state.date } handleFormat={this.handleFormat} format={this.format} />  : null
+          this.state.calender ?
+            <Calender today={this.today}
+              date={ this.state.date }
+              handleFormat={this.handleFormat}
+              format={this.format} />
+          : null
         }
 
       </div>
