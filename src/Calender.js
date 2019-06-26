@@ -5,7 +5,7 @@ class Calender extends Component {
 
 	constructor(props){
 		super(props);
-		// console.log(this.props.date, "date prop...");
+		// console.log(this.props.blur, "date prop...");
 		this.dateFromInput = this.props.date;
 		// console.log(`%c ${this.dateFromInput.split('/')[0]} app date...`, "color: red");
 		this.date = new Date();

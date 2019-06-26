@@ -7,12 +7,13 @@ import { swap } from './functions/function';
 class App extends Component {
   constructor(props){
     super(props);
+    console.log(this.props.blur);
     this.date = new Date();
     this.format = "YYYY/MM/DD";
     this.state = {
       date: this.date.toISOString().split("T")[0].split('-').join("/"),
       icon: true,
-      calender: false || this.props.blur,
+      calender: false ,
       error: "",
     }
   }

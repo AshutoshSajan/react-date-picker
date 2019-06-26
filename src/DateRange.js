@@ -31,7 +31,7 @@ class DateRange extends Component {
   }
 
   handleClear = () => {
-    this.setState({ icon: true, date: "" });
+    this.setState({ icon: true, startDate: "", endDate: "" });
   }
 
   handleChage = (e) => {
@@ -54,9 +54,9 @@ class DateRange extends Component {
     return (
       <div className="date-range" >
         <div className="input-box range-input-box " onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} onClick={ this.handleClick }>
-          <input type="text" className={ this.state.error ? "error main-input" : "range-input" } placeholder={ this.state.error ||"Start Date"} name="startDate" value={ this.state.startDate } onChange={ this.handleChage } onKeyDown={ this.handleEnter } />
+          <input type="text" className="range-input" placeholder="Start Date" name="startDate" value={ this.state.startDate } onChange={ this.handleChage } />
           <span> ~ </span>
-          <input type="text" className={ this.state.error ? "error main-input" : "range-input" } placeholder={ this.state.error ||"End Date"} name="endDate" value={ this.state.endDate } onChange={ this.handleChage } onKeyDown={ this.handleEnter } />
+          <input type="text" className="range-input" placeholder="End Date" name="endDate" value={ this.state.endDate } onChange={ this.handleChage } />
             {
               this.state.icon ?
                 <i className="far fa-calendar"></i>
