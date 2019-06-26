@@ -8,6 +8,7 @@ class App extends Component {
   constructor(props){
     super(props);
     console.log(this.props.blur);
+
     this.date = new Date();
     this.format = "YYYY/MM/DD";
     this.state = {
@@ -16,6 +17,10 @@ class App extends Component {
       calender: false ,
       error: "",
     }
+
+    if(this.props && this.props.blur){
+      this.setState({ calender: this.props.blur })
+    };
   }
 
   handleClick = () => {
@@ -114,12 +119,7 @@ class App extends Component {
         <div className="input-box" onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} >
           <input type="text" className={ this.state.error ? "error main-input" : "main-input" } placeholder={ this.state.error ||"Select Date"} name="date" value={ this.state.date } onChange={ this.handleChage } onKeyDown={ this.handleEnter } />
             {
-              !navigator.onLine ?
-                this.state.icon ?
-                  <span>[::]</span>
-                : <span className="clear-input" onClick={this.handleClear}>+</span>
-              :
-              this.state.icon && navigator.onLine ?
+              this.state.icon ?
                 <i className="far fa-calendar"></i>
               : <i className="fas fa-times-circle" onClick={this.handleClear}></i>
             }

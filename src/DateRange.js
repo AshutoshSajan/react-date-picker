@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Calender from './Calender';
-// import { swap } from './functions/function';
 
 class DateRange extends Component {
   constructor(){
     super();
     this.date = new Date();
+    this.format = "YYYY/MM/DD";
     this.state = {
       date: this.date.toISOString().split("T")[0].split('-').join("/"),
       icon: true,
@@ -24,6 +24,11 @@ class DateRange extends Component {
     if(this.state.date){
       this.setState({ icon: !this.state.icon });
     }
+  }
+
+  handleFormat = (format) => {
+    this.format = format;
+    this.setState({ date: "" });
   }
 
   handleMouseLeave = () => {
@@ -49,6 +54,9 @@ class DateRange extends Component {
 	  }
   }
 
+  hideCalender = () => {
+  	this.setState({ calender: false });
+  }
 
   render() {
     return (
@@ -66,8 +74,8 @@ class DateRange extends Component {
 	        {
 	          this.state.calender ?
 		          <div style={{display: "flex"}}>
-		            <Calender name="startDate" today={this.setDate}/>
-		            <Calender name="endDate" today={this.setDate}/>
+		            <Calender hideCalender={this.hideCalender} name="startDate" today={this.setDate}/>
+		            <Calender hideCalender={this.hideCalender} name="endDate" today={this.setDate}/>
 		          </div>
 	          : null
 	        }

@@ -254,8 +254,8 @@ class Calender extends Component {
 								}
 							</div>
 							<div className="calender-footer">
-								<DateFormat handleFormat={this.props.handleFormat}/>
-								<p className="today" onClick={() => this.props.today(today)}>today</p>
+								<DateFormat hideCalender={this.props.hideCalender} handleFormat={this.props.handleFormat}/>
+								<p className="today" onClick={() => this.props.today(today, this.props.name)}>today</p>
 
 							</div>
 						</div>
