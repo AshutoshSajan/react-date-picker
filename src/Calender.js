@@ -57,8 +57,11 @@ class Calender extends Component {
 				},
 				() =>	this.props.today(this.state.selectedDay)
 			);
-		} else if(e.target.dataset.key === "dec-month"){			
+		} else if(e.target.dataset.key === "dec-month"){
+				// console.log(this.state.month,"1");			
 			if(this.state.month === 1){
+				// console.log(this.state.month,"2");	
+
 				this.setState({
 					year: --this.state.year,
 					month: 12,
@@ -79,7 +82,9 @@ class Calender extends Component {
 			},
 			() => this.props.today(this.state.selectedDay));
 		} else if(e.target.dataset.key === "inc-month"){
+				console.log(this.state.month,"1");		
 			if(this.state.month === 12){
+				console.log(this.state.month,"2");		
 				this.setState({
 					year: ++this.state.year,
 					month: 1,
@@ -117,13 +122,13 @@ class Calender extends Component {
 	handleDay = (e) => {
 		const { innerText } = e.target;
 		const { month, year } = this.state;
-		
+		// console.log(`%c ${this.props.today} / ${ this.props.name }`, "color: green");
 		// user selected date from calender
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
 
 		this.setState(
 			{ date: innerText, selectedDay: selectedDay },
-			() => this.props.today(selectedDay)
+			() => this.props.today(selectedDay, this.props.name)
 			);
 	}
 
