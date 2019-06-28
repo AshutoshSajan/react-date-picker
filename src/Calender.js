@@ -55,7 +55,7 @@ class Calender extends Component {
 					year: --this.state.year,
 					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
 				},
-				() =>	this.props.today(this.state.selectedDay)
+				() =>	this.props.today(this.state.selectedDay, this.props.name)
 			);
 		} else if(e.target.dataset.key === "dec-month"){
 				// console.log(this.state.month,"1");			
@@ -67,53 +67,56 @@ class Calender extends Component {
 					month: 12,
 					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
 					},
-				 () => this.props.today(this.state.selectedDay));
+				 () => this.props.today(this.state.selectedDay, this.props.name));
 			} else {
 				this.setState({
 					month: --this.state.month,
 					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
 				},
-				() => this.props.today(this.state.selectedDay));
+				() => this.props.today(this.state.selectedDay, this.props.name));
 			}
 		} else if(e.target.dataset.key === "inc-year"){
 			this.setState({
 				year: ++this.state.year,
 				selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
 			},
-			() => this.props.today(this.state.selectedDay));
+			() => this.props.today(this.state.selectedDay, this.props.name));
 		} else if(e.target.dataset.key === "inc-month"){
-				console.log(this.state.month,"1");		
+				// console.log(this.state.month,"1");		
 			if(this.state.month === 12){
-				console.log(this.state.month,"2");		
+				// console.log(this.state.month,"2");		
 				this.setState({
 					year: ++this.state.year,
 					month: 1,
 					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`
 				},
-				() => this.props.today(this.state.selectedDay));
+				() => {
+					console.log(this.state.month, "month.....");
+					this.props.today(this.state.selectedDay, this.props.name)
+				});
 			} else {
 				this.setState({
 					month: ++this.state.month,
 					selectedDay: `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }` 
 				},
-				() => this.props.today(this.state.selectedDay));
+				() => this.props.today(this.state.selectedDay, this.props.name));
 			}
 		}else	return null;
 	}
 
 	getMonthDays = (year, month, num = 0) => {
 		if(num === 0){
-			var date1 = new Date(year, month, num);
+			const date1 = new Date(year, month, num);
     	return date1.getDate();
 		} else if (num === 1){
-			var date2 = new Date(year, month, num);
+			const date2 = new Date(year, month, num);
     	return date2.toDateString();
 		} else { return null };
 	}
 
 	createTable = (num) => {
-		var a = [];
-		for(var i = 0; i < num; i++ ){
+		const a = [];
+		for(const i = 0; i < num; i++ ){
 			a.push(i);
 		}
 		return a;
@@ -138,7 +141,7 @@ class Calender extends Component {
 
 	selectMonth = (e) => {
 		const { date, months, year, showMonth } = this.state;
-		var selectedMonth = months.findIndex(v => v === e.target.innerText) + 1;
+		const selectedMonth = months.findIndex(v => v === e.target.innerText) + 1;
 		// console.log(`%c selectedMonth ${selectedMonth}`, 'color: green');
 		
 		const selected = `${year}/${selectedMonth.toString().length < 2 ? "0" + selectedMonth.toString() : selectedMonth }/${date.length < 2 ? "0" + date : date }`;
@@ -148,36 +151,47 @@ class Calender extends Component {
 				showMonth: !showMonth,
 				selectedDay: selected,
 		}, () => {
-			this.props.today(selected);
+			this.props.today(selected, this.props.name);
 		});
+	}
+
+	handleToday = () => {
+		this.setState({ 
+			day: this.date.getDay(),
+			month: this.date.getMonth(),
+			year: this.date.getFullYear() 
+		},
+		() => this.props.today(this.state.today, this.props.name));
 	}
 
 	render() {
 		// console.log(this.febDays,"febDays", this.state, "rndr state...");
 		const { month, year, months, weekDays, today, tableCells, showMonth } = this.state;
+		const isCurrnetMonth = new Date().getMonth() === +(this.state.month - 1);
+
 		// to get the first day of month
-		var firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
+		const firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
 
 		// console.log(`%c first day ${firstDay}`, 'color:green;');
 		// to get the all days of previous month
-		var previousMonthDays = this.getMonthDays(year, (month - 1));
+		const previousMonthDays = this.getMonthDays(year, (month - 1));
 		
 		// to get the all days of current month
-		var currentMonthDays = this.getMonthDays(year, month);
+		const currentMonthDays = this.getMonthDays(year, month);
 		// console.log(`%c currentMonthDays ${currentMonthDays}`, 'color:yellow;');
 
 
 		// to get the all days of next month
-		// var nextMonthDays = this.getMonthDays(year, (month + 1));
-		var position = weekDays.indexOf(firstDay[0].toUpperCase());
+		// const nextMonthDays = this.getMonthDays(year, (month + 1));
+		const position = weekDays.indexOf(firstDay[0].toUpperCase());
 		// console.log(`%c position ${position}`, 'color:red;');
 
-		var pastDays =  position;
+		let pastDays =  position;
 		// console.log(`%c pastDays... ${ pastDays }`, 'color: blue;');
 
-		var nextDays = tableCells - (position + currentMonthDays);
-		var calender = [];
-		// var popDay = pastDays + date - 1 ;
+		const nextDays = tableCells - (position + currentMonthDays);
+		const calender = [];
+		// const popDay = pastDays + date - 1 ;
 
 		// console.log(date, "date",pastDays,"pastDays", position, "position...", popDay, "popDay");
 
@@ -190,12 +204,12 @@ class Calender extends Component {
 		}
 
 		// loop to add current month days into an array
-		for(var i = 1; i <= currentMonthDays; i++){
+		for(let i = 1; i <= currentMonthDays; i++){
 			calender.push(i);
 		}
 
 		// loop to add past month days into an array
-		for(var j = 1; j <= nextDays; j++){
+		for(let j = 1; j <= nextDays; j++){
 			calender.push(j);
 		}
 
@@ -240,7 +254,7 @@ class Calender extends Component {
 											<p className={
 												(index < position || index >= position + currentMonthDays) ?
 													"fade":
-													DATE === this.date.getDate() && index === this.date.getDate() + position - 1 ?
+													DATE === this.date.getDate() && isCurrnetMonth && index === this.date.getDate() + position - 1 ?
 												 	"day current-day" : "day"
 												}
 												onClick={
@@ -249,13 +263,16 @@ class Calender extends Component {
 												key={index}
 												data-key={index+1}>
 												{DATE}
-												</p>
-										)) : null
+											</p>
+										)) 
+									: null
 								}
 							</div>
 							<div className="calender-footer">
 								<DateFormat hideCalender={this.props.hideCalender} handleFormat={this.props.handleFormat}/>
-								<p className="today" onClick={() => this.props.today(today, this.props.name)}>today</p>
+								<p className="today"
+									onClick={this.handleToday}>today
+								</p>
 
 							</div>
 						</div>

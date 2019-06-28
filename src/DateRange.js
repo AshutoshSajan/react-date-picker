@@ -6,6 +6,9 @@ class DateRange extends Component {
     super();
     this.date = new Date();
     this.format = "YYYY/MM/DD";
+
+    
+
     this.state = {
       date: this.date.toISOString().split("T")[0].split('-').join("/"),
       icon: true,
@@ -46,12 +49,51 @@ class DateRange extends Component {
 
   setDate = (data, name) => {
   	console.log(data, name);
-  	if(data && name) {
+    console.log(new Date(data).toLocaleString(), 'date range local date...');
+
+    // var a = "";
+
+    // if (this.state.endDate) { a = data.split('/') }
+    // console.log(a ,"aaaa");
+
+  	// if(data && name) {
+   //    if(this.state.startDate && name === "endDate"){
+   //      console.log('%c helloo', "color: red");
+   //      var start = this.state.startDate.split('/');
+
+   //      var end = data.split('/');
+   //      console.log(start, end, "aaa");
+
+   //      end.forEach((v,i) => {
+   //        if(Number(v) < + Number(start[i])){
+   //          console.log(v, 'hello v...');
+   //          this.setState({ startDate: data, endDate: data });
+   //        }
+   //      })
+
+   //    };
+
+   if(name === "endDate" && ""){
+      this.setState({ endDate: data });
+   } else if(name === "startDate"){
+      this.setState({ startDate: data });
+   }
+
+      // ===============
 	  	this.setState({ [name]: data , count: this.state.count + 1 });
 	  	if(this.state.count === 1){
-	  		this.setState({ count: 0, calender: false });
+	  		// this.setState({ count: 0, calender: false });
 	  	}
-	  }
+
+      // if(this.state.startDate && this.state.endDate){
+      //   // this.setState({ calender: false })
+      // }
+      // if(this.state.endDate < this.state.startDate ){
+      //   // this.setState({ endDate: this.state.endDate });
+      // }
+	  // }
+
+
   }
 
   hideCalender = () => {
@@ -59,6 +101,10 @@ class DateRange extends Component {
   }
 
   render() {
+    // console.log(this.state);
+    // console.log(this.state.endDate, "inside daterange rndr...");
+
+
     return (
       <div className="date-range" >
         <div className="input-box range-input-box " onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} onClick={ this.handleClick }>
