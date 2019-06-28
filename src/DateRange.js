@@ -73,17 +73,38 @@ class DateRange extends Component {
 
    //    };
 
-   if(name === "endDate" && ""){
+    const start = this.state.startDate.split('/');
+    const end = this.state.endDate.split('/');
+
+   if(name === "endDate"){
+    console.log(start,end);
+      var result = "";
+      
+      // if(Number(start[0]) < Number(end[0]) || Number(start[1]) < Number(end[1]) || Number(start[2]) < Number(end[2]) ? "yo bro..." : "nope"
+
+      // console.log(a, "toooo")
+
+      start.forEach((v,i) => {
+        if (Number(v) < Number(end[i])){
+          console.log(v, end[i], "for loop val ...");
+        }
+      });
+
+      // var res = end.every((v,i) => Number(v) > Number(start[i]));
+
+      console.log(result, "result");
+
       this.setState({ endDate: data });
    } else if(name === "startDate"){
+
       this.setState({ startDate: data });
    }
 
       // ===============
-	  	this.setState({ [name]: data , count: this.state.count + 1 });
-	  	if(this.state.count === 1){
-	  		// this.setState({ count: 0, calender: false });
-	  	}
+	  	// this.setState({ [name]: data , count: this.state.count + 1 });
+	  	// if(this.state.count === 1){
+	  	// 	// this.setState({ count: 0, calender: false });
+	  	// }
 
       // if(this.state.startDate && this.state.endDate){
       //   // this.setState({ calender: false })
@@ -100,11 +121,10 @@ class DateRange extends Component {
   	this.setState({ calender: false });
   }
 
+
   render() {
     // console.log(this.state);
     // console.log(this.state.endDate, "inside daterange rndr...");
-
-
     return (
       <div className="date-range" >
         <div className="input-box range-input-box " onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} onClick={ this.handleClick }>
