@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import Calender from './Calender';
 import { swap } from './functions/function';
-// import Date from './Date';
 
 class App extends Component {
   constructor(props){
     super(props);
-    console.log(this.props.blur);
 
     this.date = new Date();
     this.format = "YYYY/MM/DD";

@@ -5,9 +5,7 @@ class DateRange extends Component {
   constructor(){
     super();
     this.date = new Date();
-    this.format = "YYYY/MM/DD";
-
-    
+    // this.format = "YYYY/MM/DD";
 
     this.state = {
       date: this.date.toISOString().split("T")[0].split('-').join("/"),
@@ -29,10 +27,10 @@ class DateRange extends Component {
     }
   }
 
-  handleFormat = (format) => {
-    this.format = format;
-    this.setState({ date: "" });
-  }
+  // handleFormat = (format) => {
+  //   this.format = format;
+  //   this.setState({ date: "" });
+  // }
 
   handleMouseLeave = () => {
     this.mouseEnter();
@@ -76,27 +74,18 @@ class DateRange extends Component {
     const start = this.state.startDate.split('/');
     const end = this.state.endDate.split('/');
 
-   if(name === "endDate"){
-    console.log(start,end);
+    if(name === "endDate"){
+      console.log(start,end);
       var result = "";
-      
-      // if(Number(start[0]) < Number(end[0]) || Number(start[1]) < Number(end[1]) || Number(start[2]) < Number(end[2]) ? "yo bro..." : "nope"
-
-      // console.log(a, "toooo")
-
-      start.forEach((v,i) => {
-        if (Number(v) < Number(end[i])){
-          console.log(v, end[i], "for loop val ...");
+      if(this.state.startDate){    
+        if(Number(start[0]) < Number(end[0]) || Number(start[1]) < Number(end[1]) || Number(start[2]) < Number(end[2])){
+          console.log(`%c ${result} inside range logic`, "color:red");
+          this.setState({ endDate: data });
+        } else {
+          this.setState({ endDate: data });
         }
-      });
-
-      // var res = end.every((v,i) => Number(v) > Number(start[i]));
-
-      console.log(result, "result");
-
-      this.setState({ endDate: data });
-   } else if(name === "startDate"){
-
+    }
+   } else if (name === "startDate"){
       this.setState({ startDate: data });
    }
 
