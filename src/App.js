@@ -9,14 +9,15 @@ class App extends Component {
     shwoCalander: false
   }
   
-  handleBlur = () => {
-    this.setState({ shwoCalander: !this.state.shwoCalander });
-  }
+  // handleBlur = () => {
+  //   console.log("fired");
+  //   this.setState({ shwoCalander: "hide" });
+  // }
 
   render(){
     return (
-      <div className="app" onClick={this.handleBlur} >
-        <Date blur={this.state.shwoCalander} />
+      <div className="app" >
+        <Date />
         <DateRange />
       </div>
     )

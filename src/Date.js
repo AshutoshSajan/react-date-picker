@@ -6,13 +6,12 @@ import { swap } from './functions/function';
 class App extends Component {
   constructor(props){
     super(props);
-
     this.date = new Date();
     this.format = "YYYY/MM/DD";
     this.state = {
       date: this.date.toISOString().split("T")[0].split('-').join("/"),
       icon: true,
-      calender: false ,
+      calender: false,
       error: "",
     }
 
@@ -22,7 +21,7 @@ class App extends Component {
   }
 
   handleClick = () => {
-    this.setState({ calender: true });
+    this.setState({ calender: !this.state.calender });
   }
 
   mouseEnter = () => {
@@ -66,12 +65,12 @@ class App extends Component {
 
         if(this.format === a){
           const result = data.split('/').reverse().join("/");
-          console.log(result,'d/m/y date format result...');
+          // console.log(result,'d/m/y date format result...');
           this.setState({ date: result });
         } else if(this.format === b){
 
           var result = data.split('/').splice(1).concat(data.split('/')[0]).join('/');
-          console.log(result,'m/d/y date format result...');
+          // console.log(result,'m/d/y date format result...');
           this.setState({ date: result });
         } else if(this.format === c){
           // var x = data.split('/');
@@ -79,7 +78,7 @@ class App extends Component {
           // var result = x.concat(v).join('/');
           const result = swap(data.split('/'), 1, 2).join('/');
           this.setState({ date: result });
-          console.log(result,'result...');
+          // console.log(result,'result...');
         } else {
           this.setState({ date: data });
         } 
@@ -97,7 +96,7 @@ class App extends Component {
     if(e.keyCode === 13 && e.target.value.trim()){
       var a = e.target.value.split("/");
       if(a.length === 3){
-        console.log(a,'a...');
+        // console.log(a,'a...');
         if((a[0].length <= 2 && Number(a[0]) <= 31) && (a[1].length <= 2 && Number(a[1]) <= 12) && a[2].length === 4){
           this.setState({ date: e.target.value });
         } else {
@@ -107,15 +106,25 @@ class App extends Component {
     };
   }
 
-  // this.handleBlur = () => {
-
-  // }
+  handleBlur = () => {
+    this.setState({ calender: false });
+  }
 
   render() {
     return (
-      <div className="app" onClick={ this.handleClick } >
-        <div className="input-box" onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} >
-          <input type="text" className={ this.state.error ? "error main-input" : "main-input" } placeholder={ this.state.error ||"Select Date"} name="date" value={ this.state.date } onChange={ this.handleChage } onKeyDown={ this.handleEnter } />
+      <div className="app"  >
+        <div className="input-box"
+          onMouseEnter={this.mouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          >
+          <input 
+            type="text" 
+            className={ this.state.error ? "error main-input" : "main-input" }
+            placeholder={ this.state.error ||"Select Date"} name="date" value={ this.state.date } 
+            onChange={ this.handleChage } 
+            onKeyDown={ this.handleEnter } 
+            onClick={ this.handleClick }
+            />
             {
               this.state.icon ?
                 <i className="far fa-calendar"></i>

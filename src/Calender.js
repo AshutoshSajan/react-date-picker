@@ -197,6 +197,12 @@ class Calender extends Component {
 		() =>	this.props.today(this.state.selectedDay, this.props.name));
 	}
 
+
+	// select = (e) => {
+	// 	console.dir(e.target);
+	// 	e.target.select();
+	// }
+
 	render() {
 		console.log(this.state.year);
 		// console.log(this.febDays,"febDays", this.state, "rndr state...");
