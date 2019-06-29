@@ -169,7 +169,7 @@ class Calender extends Component {
 		// console.log(this.febDays,"febDays", this.state, "rndr state...");
 		const { month, year, months, weekDays, tableCells, showMonth } = this.state;
 		const isCurrnetMonth = new Date().getMonth() === +(this.state.month - 1);
-
+		const isCurrnetYear = new Date().getFullYear() === +(this.state.year)
 		// to get the first day of month
 		const firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
 
@@ -255,7 +255,7 @@ class Calender extends Component {
 											<p className={
 												(index < position || index >= position + currentMonthDays) ?
 													"fade":
-													DATE === this.date.getDate() && isCurrnetMonth && index === this.date.getDate() + position - 1 ?
+													DATE === this.date.getDate() && isCurrnetMonth && isCurrnetYear && index === this.date.getDate() + position - 1 ?
 												 	"day current-day" : "day"
 												}
 												onClick={
