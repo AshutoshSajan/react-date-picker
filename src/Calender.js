@@ -281,7 +281,7 @@ class Calender extends Component {
 								: null
 						}
 
-						<div className="disply-month">
+						<div className={ showMonth ? `disply-month mnth-tble` : "disply-month"}>
 							{	
 								!showMonth ? null :
 									months.map((month, index) => (

@@ -85,6 +85,16 @@
 	padding: 4px 10px;
 	cursor: pointer;
 }
+
+.disply-month p:hover,
+.year-table p:hover {
+	color: dodgerblue;
+}
+
+.year-table .fade:hover {
+	color: #999;
+}
+
 .current-month,
 .current-year {
 	color: #333;
@@ -122,4 +132,8 @@
 .year-table p {
 	padding: 4px 8px;
 	cursor: pointer;
+}
+
+.mnth-tble {
+	border-top: 1px solid rgba(0,0,0,0.4);
 }
