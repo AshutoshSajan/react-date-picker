@@ -177,7 +177,7 @@ class Calender extends Component {
 
 	handleYears = (e, prevYear) => {
 		
-		console.log(e.target.dataset.key,"key", prevYear,"prevYear", "handleYears called",)
+		console.log(e.key,"key", prevYear,"prevYear", "handleYears called",)
 		if(e.target.dataset.key === "incYearsRange"){
 			this.setState({ years: prevYear + 10 });
 		} else {
@@ -305,7 +305,20 @@ class Calender extends Component {
 												<div className="year-table">
 													{
 														yearsArr.reverse().map((year, idx) => (
-														<p key={idx} onClick={() => this.selectYear(year)}>{year}</p>
+														<p 
+															className={ idx === 0 || idx === yearsArr.length - 1 ? "fade" : null }
+															key={idx}
+															onClick={
+																idx === 0 ?
+																	null
+																	// (e) => this.handleYears(e, yearsArr[1])
+																: idx === yearsArr.length - 1 ?
+																	// (e) => this.handleYears(e, yearsArr[yearsArr.length - 2])
+																	null
+																: () => this.selectYear(year)
+															}>
+															{year}
+														</p>
 														))
 													}
 												</div>
