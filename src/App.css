@@ -37,27 +37,3 @@
   display: inline-block;
   transform: rotate(45deg);
 }
-
-
-/*//////////////////////////////////////*/
-/*///////////date range css/////////////*/
-/*//////////////////////////////////////*/
-
-.range-input-box {
-  width: 600px;
-  /*display: flex;
-  justify-content: center;*/
-}
-
-.range-input-box input {
-  text-align: center;
-  font-size: 20px;
-}
-
-.range-input:nth-child(3n){
-  margin-right: 20px;
-}
-
-/*.range-input-box .far,.fas {
-  align-self: right;
-}*/
