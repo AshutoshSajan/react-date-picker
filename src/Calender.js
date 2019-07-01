@@ -5,9 +5,7 @@ class Calender extends Component {
 
 	constructor(props){
 		super(props);
-		// console.log(this.props.blur, "date prop...");
 		this.dateFromInput = this.props.date;
-		// console.log(`%c ${this.dateFromInput.split('/')[0]} app date...`, "color: red");
 		this.date = new Date();
 		this.state = {
 			format: this.props.format,
@@ -41,22 +39,8 @@ class Calender extends Component {
 			calenderHdr: true
 		}
 	}
-
-	// funtion to get feb days
-	// if (this.state.month === 2) {
-	//     if ((this.state.year % 100 !== 0) && (this.state.year % 4 === 0) || (this.state.year % 400 === 0)) {
-	//       this.febDays = 29;
-	//     } else {
-	//       this.febDays = 28;
-	//     }
-	//   }else console.log("month is not == 2");
-
 	
 	handleClick = (e) => {
-
-		// const currentDate = `${this.state.year}/${this.state.month.toString().length < 2 ? "0" + this.state.month.toString() : this.state.month }/${this.state.date.toString().length < 2 ? "0" + this.state.date.toString() : this.state.date }`;
-		// console.log(`%c ${currentDate}`, 'color: red');
-		
 
 		if(e.target.dataset.key === "dec-year"){
 			this.setState((state) => ({
@@ -66,10 +50,7 @@ class Calender extends Component {
 				() =>	this.props.today(this.state.selectedDay, this.props.name)
 			);
 		} else if(e.target.dataset.key === "dec-month"){
-				// console.log(this.state.month,"1");			
 			if(this.state.month === 1){
-				// console.log(this.state.month,"2");	
-
 				this.setState((state) => ({
 					year: --state.year,
 					month: 12,
@@ -90,9 +71,7 @@ class Calender extends Component {
 			}),
 			() => this.props.today(this.state.selectedDay, this.props.name));
 		} else if(e.target.dataset.key === "inc-month"){
-				console.log(this.state.month,"1");		
 				if(this.state.month === 12){
-					console.log(this.state.month,"2");		
 					this.setState((state) => ({
 						month: 1,
 						year: ++state.year,
@@ -133,8 +112,6 @@ class Calender extends Component {
 	handleDay = (e) => {
 		const { innerText } = e.target;
 		const { month, year } = this.state;
-		// console.log(`%c ${this.props.today} / ${ this.props.name }`, "color: green");
-		// user selected date from calender
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
 
 		this.setState(
@@ -154,7 +131,6 @@ class Calender extends Component {
 	selectMonth = (e) => {
 		const { date, months, year, showMonth } = this.state;
 		const selectedMonth = months.findIndex(v => v === e.target.innerText) + 1;
-		// console.log(`%c selectedMonth ${selectedMonth}`, 'color: green');
 		
 		const selected = `${year}/${selectedMonth.toString().length < 2 ? "0" + selectedMonth.toString() : selectedMonth }/${date.length < 2 ? "0" + date : date }`;
 		
@@ -178,7 +154,6 @@ class Calender extends Component {
 
 	handleYears = (e, prevYear) => {
 		
-		// console.log(e.key,"key", prevYear,"prevYear", "handleYears called",)
 		if(e.target.dataset.key === "incYearsRange"){
 			this.setState({ years: prevYear + 10 });
 		} else {
@@ -198,22 +173,26 @@ class Calender extends Component {
 		() =>	this.props.today(this.state.selectedDay, this.props.name));
 	}
 
-
-	// select = (e) => {
-	// 	console.dir(e.target);
-	// 	e.target.select();
-	// }
-
 	render() {
-		// console.log(this.state.year);
-		// console.log(this.febDays,"febDays", this.state, "rndr state...");
+		
 		let { month, year, months, weekDays, tableCells, showMonth, showYear, years, calenderHdr } = this.state;
 		const isCurrnetMonth = new Date().getMonth() === +(this.state.month - 1);
 		const isCurrnetYear = new Date().getFullYear() === +(this.state.year);
 
-		// ===========
-		// let years = this.date.getFullYear();
-		// console.log(years, "rner cal");
+		const firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
+		const previousMonthDays = this.getMonthDays(year, (month - 1));
+		
+		// to get the all days of current month
+		const currentMonthDays = this.getMonthDays(year, month);
+
+
+		// to get the all days of next month
+		const position = weekDays.indexOf(firstDay[0].toUpperCase());
+		let pastDays =  position;
+		const nextDays = tableCells - (position + currentMonthDays);
+		const calender = [];
+
+		// years selection component method
 		let yearsArr = [];
 		var yaerLength = years - 12;
 
@@ -221,37 +200,6 @@ class Calender extends Component {
 			yearsArr.push(years + 1)
 			--years
 		}
-
-		// constole.log(yearsArr, "yearsArr....");
-		// ============
-		// var years = this.date.getFullYear() + 9 ;
-		// to get the first day of month
-		const firstDay = this.getMonthDays(year, (month - 1), 1).split(' ');
-
-		// console.log(`%c first day ${firstDay}`, 'color:green;');
-		// to get the all days of previous month
-		const previousMonthDays = this.getMonthDays(year, (month - 1));
-		
-		// to get the all days of current month
-		const currentMonthDays = this.getMonthDays(year, month);
-		// console.log(`%c currentMonthDays ${currentMonthDays}`, 'color:yellow;');
-
-
-		// to get the all days of next month
-		// const nextMonthDays = this.getMonthDays(year, (month + 1));
-		const position = weekDays.indexOf(firstDay[0].toUpperCase());
-		// console.log(`%c position ${position}`, 'color:red;');
-
-		let pastDays =  position;
-		// console.log(`%c pastDays... ${ pastDays }`, 'color: blue;');
-
-		const nextDays = tableCells - (position + currentMonthDays);
-		const calender = [];
-		// const popDay = pastDays + date - 1 ;
-
-		// console.log(date, "date",pastDays,"pastDays", position, "position...", popDay, "popDay");
-
-		// console.log(pastDays + currentMonthDays, "...////");
 
 		// loop to add previous month days into an array
 		while (pastDays > 0) { 
@@ -276,14 +224,36 @@ class Calender extends Component {
 						{
 							calenderHdr ? 
 								<div className="calender-hdr">
-									<span onClick={this.handleClick} data-key="dec-year">{"<<"}</span>
-									<span onClick={this.handleClick} data-key="dec-month">{"<"}</span>
+									<span 
+										onClick={this.handleClick}
+										data-key="dec-year">{"<<"}
+									</span>
+									<span
+										onClick={this.handleClick}
+										data-key="dec-month">{"<"}
+									</span>
 									<h3>
-										<span className="current-month" onClick={this.handleMonth}>{ months[month - 1] }</span>
-										<span className="current-year" onClick={this.handleYear}> { year }</span>
+										<span 
+											className="current-month"
+											onClick={this.handleMonth}>
+											{ months[month - 1] }
+										</span>
+										<span 
+											className="current-year"
+											onClick={this.handleYear}>
+											{ year }
+										</span>
 									</h3>
-									<span onClick={this.handleClick} data-key="inc-month">{">"}</span>
-									<span onClick={this.handleClick} data-key="inc-year">{">>"}</span>
+									<span
+										onClick={this.handleClick}
+										data-key="inc-month">
+										{">"}
+									</span>
+									<span
+										onClick={this.handleClick}
+										data-key="inc-year">
+										{">>"}
+									</span>
 								</div>
 								: null
 						}
@@ -302,10 +272,19 @@ class Calender extends Component {
 									showYear ?
 										<div>
 											<div className="years-range">
-												<span onClick={(e) => this.handleYears(e, yearsArr[1])} data-key="decYearsRange">{"<<"}</span>
-													<p>{`${ yearsArr[yearsArr.length - 2] } - ${ yearsArr[1] }`}
+												<span
+													onClick={(e) => this.handleYears(e, yearsArr[1])}
+													data-key="decYearsRange">
+													{"<<"}
+												</span>
+													<p>
+														{`${ yearsArr[yearsArr.length - 2] } - ${ yearsArr[1] }`}
 													</p>
-												<span onClick={(e) => this.handleYears(e, yearsArr[yearsArr.length - 2])} data-key="incYearsRange">{">>"}</span>
+												<span
+													onClick={(e) => this.handleYears(e, yearsArr[yearsArr.length - 2])}
+													data-key="incYearsRange">
+													{">>"}
+												</span>
 											</div>
 
 											{	
@@ -318,9 +297,7 @@ class Calender extends Component {
 															onClick={
 																idx === 0 ?
 																	null
-																	// (e) => this.handleYears(e, yearsArr[1])
 																: idx === yearsArr.length - 1 ?
-																	// (e) => this.handleYears(e, yearsArr[yearsArr.length - 2])
 																	null
 																: () => this.selectYear(year)
 															}>
@@ -367,11 +344,14 @@ class Calender extends Component {
 								}
 							</div>
 							<div className="calender-footer">
-								<DateFormat hideCalender={this.props.hideCalender} handleFormat={this.props.handleFormat}/>
+								<DateFormat
+									hideCalender={this.props.hideCalender}
+									handleFormat={this.props.handleFormat}
+								/>
 								<p className="today"
 									onClick={this.handleToday}>today
 								</p>
-
+								
 							</div>
 						</div>
 
