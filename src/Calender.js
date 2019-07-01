@@ -21,11 +21,11 @@ class Calender extends Component {
 
 			months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
 
-			today: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth().toString(): this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }`,
+			today: `${this.date.getFullYear()}/${ (this.date.getMonth() + 1).toString().length < 2 ? "0" + (this.date.getMonth() + 1).toString(): (this.date.getMonth() + 1) }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }`,
 
 			tableCells: 42,
 
-			selectedDay: `${this.date.getFullYear()}/${ this.date.getMonth().toString().length < 2 ? "0" + this.date.getMonth().toString() : this.date.getMonth() }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }`,
+			selectedDay: `${this.date.getFullYear()}/${ (this.date.getMonth() + 1).toString().length < 2 ? "0" + (this.date.getMonth() + 1).toString() : (this.date.getMonth() + 1) }/${ this.date.getDate().toString().length < 2 ? "0" + this.date.getDate().toString() : this.date.getDate() }`,
 
 			active: "active",
 
@@ -38,56 +38,58 @@ class Calender extends Component {
 			calenderHdr: true
 		}
 	}
-	
-	handleClick = (e) => {
 
-		if(e.target.dataset.key === "dec-year"){
+
+	incYear = () => {
+		this.setState((state) => ({
+			year: ++state.year,
+			selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
+			}),
+		() => this.props.today(this.state.selectedDay)
+		);
+	}
+
+	decYear = () => {
+		this.setState((state) => ({
+			year: --state.year,
+			selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
+			}),
+			() =>	this.props.today(this.state.selectedDay)
+		);
+	}
+
+	incMonth = () => {
+		if(this.state.month === 12){
 			this.setState((state) => ({
-					year: --state.year,
-					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
-				}),
-				() =>	this.props.today(this.state.selectedDay)
-			);
-		} else if(e.target.dataset.key === "dec-month"){
-			if(this.state.month === 1){
-				this.setState((state) => ({
-					year: --state.year,
-					month: 12,
-					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
-					}),
-				 () => this.props.today(this.state.selectedDay));
-			} else {
-				this.setState((state) => ({
-					month: --state.month,
-					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
-				}),
-				() => this.props.today(this.state.selectedDay));
-			}
-		} else if(e.target.dataset.key === "inc-year"){
-			this.setState((state) => ({
+				month: 1,
 				year: ++state.year,
-				selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
+				selectedDay: `${state.year}/01/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
 			}),
 			() => this.props.today(this.state.selectedDay));
-		} else if(e.target.dataset.key === "inc-month"){
-				if(this.state.month === 12){
-					this.setState((state) => ({
-						month: 1,
-						year: ++state.year,
-						selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
-					}),
-					() => {
-						this.props.today(this.state.selectedDay);
-					});
-				} else {
-					this.setState((state) => ({
-						month: ++state.month,
-						selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
-					}),
-					() => this.props.today(this.state.selectedDay)
-				);
-			}
-		}else	return null;
+		} else {
+			this.setState((state) => ({
+				month: ++state.month,
+				selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
+			}),
+			() => this.props.today(this.state.selectedDay));
+		}
+	}
+
+	decMonth = () => {
+		if(this.state.month === 1){
+			this.setState((state) => ({
+				year: --state.year,
+				month: 12,
+				selectedDay: `${state.year}/12/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
+				}),
+			 () => this.props.today(this.state.selectedDay));
+		} else {
+			this.setState((state) => ({
+				month: --state.month,
+				selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
+			}),
+			() => this.props.today(this.state.selectedDay));
+		}
 	}
 
 	getMonthDays = (year, month, num = 0) => {
@@ -128,7 +130,7 @@ class Calender extends Component {
 	}
 
 	selectMonth = (e) => {
-		const { date, months, year, showMonth } = this.state;
+		let { date, months, year, showMonth } = this.state;
 		const selectedMonth = months.findIndex(v => v === e.target.innerText) + 1;
 		
 		const selected = `${year}/${selectedMonth.toString().length < 2 ? "0" + selectedMonth.toString() : selectedMonth }/${date.length < 2 ? "0" + date : date }`;
@@ -223,14 +225,8 @@ class Calender extends Component {
 						{
 							calenderHdr ? 
 								<div className="calender-hdr">
-									<span 
-										onClick={this.handleClick}
-										data-key="dec-year">{"<<"}
-									</span>
-									<span
-										onClick={this.handleClick}
-										data-key="dec-month">{"<"}
-									</span>
+									<span onClick={this.decYear}>{"<<"}</span>
+									<span onClick={this.decMonth}>{"<"}</span>
 									<h3>
 										<span 
 											className="current-month"
@@ -243,16 +239,8 @@ class Calender extends Component {
 											{ year }
 										</span>
 									</h3>
-									<span
-										onClick={this.handleClick}
-										data-key="inc-month">
-										{">"}
-									</span>
-									<span
-										onClick={this.handleClick}
-										data-key="inc-year">
-										{">>"}
-									</span>
+									<span onClick={this.incMonth}>{">"}</span>
+									<span onClick={this.incYear}>{">>"}</span>
 								</div>
 								: null
 						}
