@@ -14,10 +14,6 @@ class App extends Component {
       calender: false,
       error: "",
     }
-
-    if(this.props && this.props.blur){
-      this.setState({ calender: this.props.blur })
-    };
   }
 
   handleClick = () => {
@@ -64,25 +60,11 @@ class App extends Component {
           this.setState({ date: data });
         } 
       } 
-    // }
   }
 
   handleChage = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value })
-  }
-
-  handleEnter = (e) => {
-    if(e.keyCode === 13 && e.target.value.trim()){
-      var a = e.target.value.split("/");
-      if(a.length === 3){
-        if((a[0].length <= 2 && Number(a[0]) <= 31) && (a[1].length <= 2 && Number(a[1]) <= 12) && a[2].length === 4){
-          this.setState({ date: e.target.value });
-        } else {
-          this.setState({ date:"" , error:"DD/MM/YYYY ENTER THIS FORMAT" });
-        }
-      };
-    };
   }
 
   handleBlur = () => {
@@ -115,10 +97,7 @@ class App extends Component {
         </div>
         {
           this.state.calender ?
-            <Calender today={this.today}
-              handleFormat={this.handleFormat}
-              format={this.format}
-            />
+            <Calender today={this.today} />
           : null
         }
 

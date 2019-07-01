@@ -5,18 +5,17 @@ class Calender extends Component {
 
 	constructor(props){
 		super(props);
-		this.dateFromInput = this.props.date;
 		this.date = new Date();
+
 		this.state = {
-			format: this.props.format,
 
 			day: this.date.getDay(),
 
-			date: this.props.date ? this.props.date.split('/')[2] : this.date.getDate(),
+			date: this.date.getDate(),
 
-			month: this.props.date ? this.props.date.split('/')[1] : this.date.getMonth() + 1,
+			month: this.date.getMonth() + 1,
 
-			year: this.props.date ? this.props.date.split('/')[0] : this.date.getFullYear(),
+			year: this.date.getFullYear(),
 
 			weekDays: ["SUN","MON", "TUE", "WED","THU","FRI", "SAT"],
 
@@ -47,7 +46,7 @@ class Calender extends Component {
 					year: --state.year,
 					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
 				}),
-				() =>	this.props.today(this.state.selectedDay, this.props.name)
+				() =>	this.props.today(this.state.selectedDay)
 			);
 		} else if(e.target.dataset.key === "dec-month"){
 			if(this.state.month === 1){
@@ -56,20 +55,20 @@ class Calender extends Component {
 					month: 12,
 					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
 					}),
-				 () => this.props.today(this.state.selectedDay, this.props.name));
+				 () => this.props.today(this.state.selectedDay));
 			} else {
 				this.setState((state) => ({
 					month: --state.month,
 					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
 				}),
-				() => this.props.today(this.state.selectedDay, this.props.name));
+				() => this.props.today(this.state.selectedDay));
 			}
 		} else if(e.target.dataset.key === "inc-year"){
 			this.setState((state) => ({
 				year: ++state.year,
 				selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
 			}),
-			() => this.props.today(this.state.selectedDay, this.props.name));
+			() => this.props.today(this.state.selectedDay));
 		} else if(e.target.dataset.key === "inc-month"){
 				if(this.state.month === 12){
 					this.setState((state) => ({
@@ -78,14 +77,14 @@ class Calender extends Component {
 						selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
 					}),
 					() => {
-						this.props.today(this.state.selectedDay, this.props.name);
+						this.props.today(this.state.selectedDay);
 					});
 				} else {
 					this.setState((state) => ({
 						month: ++state.month,
 						selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
 					}),
-					() => this.props.today(this.state.selectedDay, this.props.name)
+					() => this.props.today(this.state.selectedDay)
 				);
 			}
 		}else	return null;
@@ -116,7 +115,7 @@ class Calender extends Component {
 
 		this.setState(
 			{ date: innerText, selectedDay: selectedDay },
-			() => this.props.today(selectedDay, this.props.name)
+			() => this.props.today(selectedDay)
 			);
 	}
 
@@ -139,7 +138,7 @@ class Calender extends Component {
 				showMonth: !showMonth,
 				selectedDay: selected,
 		}, () => {
-			this.props.today(selected, this.props.name);
+			this.props.today(selected);
 		});
 	}
 
@@ -149,7 +148,7 @@ class Calender extends Component {
 			month: this.date.getMonth() + 1,
 			year: this.date.getFullYear() 
 		},
-		() => this.props.today(this.state.today, this.props.name));
+		() => this.props.today(this.state.today));
 	}
 
 	handleYears = (e, prevYear) => {
@@ -170,7 +169,7 @@ class Calender extends Component {
 			showYear: false,
 			calenderHdr: true
 		},
-		() =>	this.props.today(this.state.selectedDay, this.props.name));
+		() =>	this.props.today(this.state.selectedDay));
 	}
 
 	render() {
@@ -351,7 +350,7 @@ class Calender extends Component {
 								<p className="today"
 									onClick={this.handleToday}>today
 								</p>
-								
+
 							</div>
 						</div>
 
