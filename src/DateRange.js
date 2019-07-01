@@ -45,7 +45,7 @@ class DateRange extends Component {
       if(name === "endDate"){
         console.log(name, 'name');
         if(this.state.startDate){
-          if(new Date(data) > new Date(this.state.startDate)){
+          if(new Date(data) > new Date(this.state.startDate) || new Date(this.state.startDate) < new Date(data)){
             console.log(`%c ${this.state.startDate} ${this.state.endDate} date range`, "color: red");
             this.setState({ endDate: data });
           }
