@@ -5,15 +5,12 @@ class DateRange extends Component {
   constructor(){
     super();
     this.date = new Date();
-    // this.format = "YYYY/MM/DD";
 
     this.state = {
-      date: this.date.toISOString().split("T")[0].split('-').join("/"),
       icon: true,
       calender: false,
       startDate: "",
       endDate: "",
-      count: 0
     }
   }
 
@@ -22,15 +19,10 @@ class DateRange extends Component {
   }
 
   mouseEnter = () => {
-    if(this.state.date){
+    if(this.state.startDate && this.state.endDate){
       this.setState({ icon: !this.state.icon });
     }
   }
-
-  // handleFormat = (format) => {
-  //   this.format = format;
-  //   this.setState({ date: "" });
-  // }
 
   handleMouseLeave = () => {
     this.mouseEnter();
@@ -46,64 +38,22 @@ class DateRange extends Component {
   }
 
   setDate = (data, name) => {
-  	console.log(data, name);
-    console.log(new Date(data).toLocaleString(), 'date range local date...');
+  	// console.log(data, name);
+    console.log(new Date(data), 'date range local date...');
 
-    // var a = "";
-
-    // if (this.state.endDate) { a = data.split('/') }
-    // console.log(a ,"aaaa");
-
-  	// if(data && name) {
-   //    if(this.state.startDate && name === "endDate"){
-   //      console.log('%c helloo', "color: red");
-   //      var start = this.state.startDate.split('/');
-
-   //      var end = data.split('/');
-   //      console.log(start, end, "aaa");
-
-   //      end.forEach((v,i) => {
-   //        if(Number(v) < + Number(start[i])){
-   //          console.log(v, 'hello v...');
-   //          this.setState({ startDate: data, endDate: data });
-   //        }
-   //      })
-
-   //    };
-
-    const start = this.state.startDate.split('/');
-    const end = this.state.endDate.split('/');
-
-    if(name === "endDate"){
-      console.log(start,end);
-      var result = "";
-      if(this.state.startDate){    
-        if(Number(start[0]) < Number(end[0]) || Number(start[1]) < Number(end[1]) || Number(start[2]) < Number(end[2])){
-          console.log(`%c ${result} inside range logic`, "color:red");
-          this.setState({ endDate: data });
-        } else {
-          this.setState({ endDate: data });
+  	if(data && name) {
+      if(name === "endDate"){
+        console.log(name, 'name');
+        if(this.state.startDate){
+          if(new Date(data) > new Date(this.state.startDate)){
+            console.log(`%c ${this.state.startDate} ${this.state.endDate} date range`, "color: red");
+            this.setState({ endDate: data });
+          }
         }
+      } else {
+        this.setState({ startDate: data });
+      }
     }
-   } else if (name === "startDate"){
-      this.setState({ startDate: data });
-   }
-
-      // ===============
-	  	// this.setState({ [name]: data , count: this.state.count + 1 });
-	  	// if(this.state.count === 1){
-	  	// 	// this.setState({ count: 0, calender: false });
-	  	// }
-
-      // if(this.state.startDate && this.state.endDate){
-      //   // this.setState({ calender: false })
-      // }
-      // if(this.state.endDate < this.state.startDate ){
-      //   // this.setState({ endDate: this.state.endDate });
-      // }
-	  // }
-
-
   }
 
   hideCalender = () => {
@@ -116,8 +66,20 @@ class DateRange extends Component {
     // console.log(this.state.endDate, "inside daterange rndr...");
     return (
       <div className="date-range" >
-        <div className="input-box range-input-box " onMouseEnter={this.mouseEnter} onMouseLeave={this.handleMouseLeave} onClick={ this.handleClick }>
-          <input type="text" className="range-input" placeholder="Start Date" name="startDate" value={ this.state.startDate } onChange={ this.handleChage } />
+        <div 
+          className="input-box range-input-box"
+          onMouseEnter={this.mouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          onClick={ this.handleClick }
+          >
+          <input
+            type="text"
+            className="range-input"
+            placeholder="Start Date"
+            name="startDate"
+            value={ this.state.startDate }
+            onChange={ this.handleChage }
+            />
           <span> ~ </span>
           <input type="text" className="range-input" placeholder="End Date" name="endDate" value={ this.state.endDate } onChange={ this.handleChage } />
             {

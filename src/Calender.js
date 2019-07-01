@@ -90,23 +90,24 @@ class Calender extends Component {
 			}),
 			() => this.props.today(this.state.selectedDay, this.props.name));
 		} else if(e.target.dataset.key === "inc-month"){
-				// console.log(this.state.month,"1");		
-			if(this.state.month === 12){
-				// console.log(this.state.month,"2");		
-				this.setState((state) => ({
-					month: 1,
-					year: ++state.year,
-					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
-				}),
-				() => {
-					this.props.today(this.state.selectedDay, this.props.name)
-				});
-			} else {
-				this.setState((state) => ({
-					month: ++state.month,
-					selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
-				}),
-				() => this.props.today(this.state.selectedDay, this.props.name));
+				console.log(this.state.month,"1");		
+				if(this.state.month === 12){
+					console.log(this.state.month,"2");		
+					this.setState((state) => ({
+						month: 1,
+						year: ++state.year,
+						selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }`
+					}),
+					() => {
+						this.props.today(this.state.selectedDay, this.props.name);
+					});
+				} else {
+					this.setState((state) => ({
+						month: ++state.month,
+						selectedDay: `${state.year}/${state.month.toString().length < 2 ? "0" + state.month.toString() : state.month }/${state.date.toString().length < 2 ? "0" + state.date.toString() : state.date }` 
+					}),
+					() => this.props.today(this.state.selectedDay, this.props.name)
+				);
 			}
 		}else	return null;
 	}
@@ -177,7 +178,7 @@ class Calender extends Component {
 
 	handleYears = (e, prevYear) => {
 		
-		console.log(e.key,"key", prevYear,"prevYear", "handleYears called",)
+		// console.log(e.key,"key", prevYear,"prevYear", "handleYears called",)
 		if(e.target.dataset.key === "incYearsRange"){
 			this.setState({ years: prevYear + 10 });
 		} else {
@@ -204,7 +205,7 @@ class Calender extends Component {
 	// }
 
 	render() {
-		console.log(this.state.year);
+		// console.log(this.state.year);
 		// console.log(this.febDays,"febDays", this.state, "rndr state...");
 		let { month, year, months, weekDays, tableCells, showMonth, showYear, years, calenderHdr } = this.state;
 		const isCurrnetMonth = new Date().getMonth() === +(this.state.month - 1);
@@ -212,7 +213,7 @@ class Calender extends Component {
 
 		// ===========
 		// let years = this.date.getFullYear();
-		console.log(years, "rner cal");
+		// console.log(years, "rner cal");
 		let yearsArr = [];
 		var yaerLength = years - 12;
 
@@ -221,7 +222,7 @@ class Calender extends Component {
 			--years
 		}
 
-		console.log(yearsArr, "yearsArr....");
+		// constole.log(yearsArr, "yearsArr....");
 		// ============
 		// var years = this.date.getFullYear() + 9 ;
 		// to get the first day of month
