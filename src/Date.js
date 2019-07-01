@@ -97,7 +97,9 @@ class App extends Component {
         </div>
         {
           this.state.calender ?
-            <Calender today={this.today} />
+            <Calender today={this.today}
+              handleFormat={this.handleFormat}
+            />
           : null
         }
 
