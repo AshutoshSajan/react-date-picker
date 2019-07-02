@@ -1,6 +1,6 @@
 {
   "name": "my-react-date-picker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "small date picker component build on react",
   "main": "build/index.js",

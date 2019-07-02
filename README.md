@@ -1,13 +1,13 @@
-#React Date Picker
+# React Date Picker
 
-![Date picker](./public/react-date-picker.jpg?raw=true "React date picker")
+![Date picker](./public/react-date-picker.png?raw=true "React date picker")
 
 
-##Installation
+## Installation
 
-###The package can be installed via NPM:
+### The package can be installed via NPM:
 
-###npm install my-react-date-picker --save
+### npm install my-react-date-picker --save
 
 ```
 npm install react-datepicker --save
