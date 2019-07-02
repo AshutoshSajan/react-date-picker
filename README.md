@@ -7,8 +7,6 @@
 
 ### The package can be installed via NPM:
 
-### npm install my-react-date-picker --save
-
 ```
 npm install react-datepicker --save
 
