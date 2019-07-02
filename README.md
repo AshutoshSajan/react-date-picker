@@ -1,6 +1,6 @@
 # React Date Picker
 
-![Date picker](./public/react-date-picker.png "React date picker")
+![Date picker](./public/datePicker.png "React date picker")
 
 
 ## Installation
