@@ -148,19 +148,20 @@ class Calender extends Component {
 		this.setState({ 
 			day: this.date.getDay(),
 			month: this.date.getMonth() + 1,
-			year: this.date.getFullYear() 
+			year: this.date.getFullYear() ,
+			years: this.date.getFullYear()
 		},
 		() => this.props.today(this.state.today));
 	}
 
-	handleYears = (e, prevYear) => {
-		
-		if(e.target.dataset.key === "incYearsRange"){
-			this.setState({ years: prevYear + 10 });
-		} else {
-			this.setState({ years: prevYear - 10 });
-		}
+	decYearsRange = (year) => {
+		this.setState({ years: year - 10 });
 	}
+
+	incYearsRange = (year) => {
+		this.setState({ years: year + 10 });
+	}
+
 
 	// year selection method
 	selectYear = (seletedYear) => {
@@ -259,17 +260,15 @@ class Calender extends Component {
 									showYear ?
 										<div>
 											<div className="years-range">
-												<span
-													onClick={(e) => this.handleYears(e, yearsArr[1])}
-													data-key="decYearsRange">
+												<span onClick={
+													() => this.decYearsRange(yearsArr[yearsArr.length - 2])}>
 													{"<<"}
 												</span>
 													<p>
 														{`${ yearsArr[yearsArr.length - 2] } - ${ yearsArr[1] }`}
 													</p>
-												<span
-													onClick={(e) => this.handleYears(e, yearsArr[yearsArr.length - 2])}
-													data-key="incYearsRange">
+												<span onClick={
+													() => this.incYearsRange(yearsArr[yearsArr.length - 2])}>
 													{">>"}
 												</span>
 											</div>

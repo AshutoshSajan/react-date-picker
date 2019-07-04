@@ -11,12 +11,12 @@
     "react": "*",
     "react-dom": "*",
     "react-scripts": "*",
-    "webpack": "*"
+    "webpack": "^4.35.2"
   },
   "scripts": {
     "test": "react-scripts test",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build"
   },
   "author": {
     "name": "Sajan",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "babel-cli": "*",
     "babel-core": "*",
-    "babel-loader": "*",
+    "babel-loader": "^8.0.6",
     "babel-plugin-transform-object-rest-spread": "*",
     "babel-plugin-transform-react-jsx": "*",
     "babel-preset-env": "*",
