@@ -115,10 +115,15 @@ class Calender extends Component {
 		const { month, year } = this.state;
 		const selectedDay = `${year}/${month.toString().length < 2 ? "0" + month : month }/${innerText.length < 2 ? "0" + innerText : innerText }`;
 
-		this.setState(
-			{ date: innerText, selectedDay: selectedDay },
+		this.setState({
+			date: innerText,
+			selectedDay: selectedDay,
+			showYear: false,
+			showMonth: false,
+			calenderHdr: true
+		},
 			() => this.props.today(selectedDay)
-			);
+		);
 	}
 
 	handleMonth = () => {
@@ -149,7 +154,10 @@ class Calender extends Component {
 			day: this.date.getDay(),
 			month: this.date.getMonth() + 1,
 			year: this.date.getFullYear() ,
-			years: this.date.getFullYear()
+			years: this.date.getFullYear(),
+			showYear: false,
+			showMonth: false,
+			calenderHdr: true
 		},
 		() => this.props.today(this.state.today));
 	}
