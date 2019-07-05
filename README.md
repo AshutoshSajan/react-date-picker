@@ -15,7 +15,7 @@ Open http://localhost:3000 to view it in the browser.
 ### The package can be installed via NPM:
 
 ```
-npm install react-datepicker --save
+npm install my-react-date-picker --save
 
 ```
 
