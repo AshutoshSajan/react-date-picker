@@ -1,6 +1,6 @@
 {
   "name": "my-react-date-picker",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "small date picker component build on react",
   "main": "build/index.js",
   "repository": {
@@ -8,10 +8,10 @@
     "url": "https://github.com/sajan1231/react-date-picker-component"
   },
   "dependencies": {
-    "react": "*",
-    "react-dom": "*",
-    "react-scripts": "*",
-    "webpack": "^4.35.2"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "^3.0.1",
+    "webpack": "^4.36.1"
   },
   "scripts": {
     "test": "react-scripts test",
@@ -33,12 +33,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-cli": "*",
-    "babel-core": "*",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
-    "babel-plugin-transform-object-rest-spread": "*",
-    "babel-plugin-transform-react-jsx": "*",
-    "babel-preset-env": "*",
-    "webpack-cli": "*"
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "webpack-cli": "^3.3.6"
   }
 }
